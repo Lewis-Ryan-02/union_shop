@@ -63,7 +63,7 @@ class HomeScreen extends StatelessWidget {
                   // Main header
                   Expanded(
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Row(
                         children: [
                           Flexible(
@@ -85,6 +85,19 @@ class HomeScreen extends StatelessWidget {
                               IconButton(
                                 icon: const Icon(
                                   Icons.search,
+                                  size: 18,
+                                  color: Colors.grey,
+                                ),
+                                padding: const EdgeInsets.all(8),
+                                constraints: const BoxConstraints(
+                                  minWidth: 32,
+                                  minHeight: 32,
+                                ),
+                                onPressed: placeholderCallbackForButtons,
+                              ),
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.person_outline,
                                   size: 18,
                                   color: Colors.grey,
                                 ),
