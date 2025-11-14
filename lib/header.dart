@@ -2,6 +2,21 @@ import 'package:flutter/material.dart';
 
 class Header extends StatelessWidget {
   const Header({super.key});
+  static const List<String> _printText = [
+    'The print shack',
+    'About',
+    'Personalisation'
+  ];
+  static const List<String> _shopText = [
+    'shop',
+    'Clothing',
+    'Merchandise',
+    'Halloween 🎃',
+    'Signatures & Essential range',
+    'Portsmouth City Collection',
+    'Pride Collection 🏳️‍🌈',
+    'Graduation 🎓'
+  ];
 
   void navigateToHome(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
@@ -32,7 +47,7 @@ class Header extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 8),
             color: const Color(0xFF4d2963),
             child: const Text(
-              'PLACEHOLDER HEADER TEXT',
+              'BIG SALE! OUR ESSENTIAL RANGE HAS DROPPED IN PRICE! OVER 20% OFF! COME GRAB YOURS WHILE STOCK LASTS!',
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.white, fontSize: 16),
             ),
@@ -64,9 +79,51 @@ class Header extends StatelessWidget {
                       },
                     ),
                   ),
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () => {navigateToHome(context)},
+                    child: const SizedBox(
+                        width: 60, child: Center(child: Text('Home'))),
+                  ),
+                  DropdownButton(
+                    value: _shopText[0],
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    onChanged: (String? newValue) {
+                      navigateToProduct(context);
+                    },
+                    icon: const Icon(Icons.arrow_downward),
+                    items:
+                        _shopText.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                  DropdownButton(
+                    value: _printText[0],
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    onChanged: (String? newValue) {
+                      navigateToProduct(context);
+                    },
+                    icon: const Icon(Icons.arrow_downward),
+                    items: _printText
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
                   GestureDetector(
                     onTap: () => {navigateToAbout(context)},
-                    child: const Text('About'),
+                    child: const SizedBox(
+                        width: 60, child: Center(child: Text('SALE!'))),
+                  ),
+                  GestureDetector(
+                    onTap: () => {navigateToAbout(context)},
+                    child: const SizedBox(
+                        width: 60, child: Center(child: Text('About'))),
                   ),
                   const Spacer(),
                   ConstrainedBox(
