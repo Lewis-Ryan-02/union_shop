@@ -7,11 +7,11 @@ class AboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
         body: Column(
       children: [
-        Header(),
-        Center(
+        const Header(),
+        const Center(
           child: Center(
               child: Column(children: [Text('About Us'), Text('Placeholder')])),
         ),
