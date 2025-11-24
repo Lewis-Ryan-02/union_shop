@@ -54,7 +54,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             // Header
-            Header(),
+            const Header(),
 
             // Hero Section
             SizedBox(

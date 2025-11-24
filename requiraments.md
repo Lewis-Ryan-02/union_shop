@@ -22,7 +22,6 @@ These breakpoints must be configurable via constants in a single helper file.
 ## Feature description
 - Footer switches between:
   - Mobile: stacked single-column layout, readable fonts, larger vertical spacing.
-  - Tablet: two-column layout where appropriate (e.g., left & middle stacked, subscription in second column).
   - Desktop: three-column row layout (left, middle, right) without fixed pixel widths.
 - Email subscription TextField expands to available width but respects a minimum touch target.
 - Text wraps correctly; no hard truncation unless explicitly designed.
@@ -47,7 +46,7 @@ These breakpoints must be configurable via constants in a single helper file.
   - Subscribe button clears the field.
 - Tests:
   - At least one widget test for each breakpoint asserting arrangement type (Column vs Row or expected widget tree).
-  - Golden or screenshot tests for mobile, tablet, desktop widths (recommended).
+  - Golden or screenshot tests for mobile, desktop widths (recommended).
 - Documentation:
   - Code comments or a README explaining breakpoints and where to change them.
 - Backwards compatibility: imports unchanged for footer usage.
@@ -59,9 +58,9 @@ These breakpoints must be configurable via constants in a single helper file.
 2. Implement helper utilities
    - File: lib/responsive.dart
    - Export:
-     - breakpoint constants (MOBILE_MAX, TABLET_MIN/MAX, DESKTOP_MIN)
-     - helpers: bool isMobile(BuildContext), isTablet(BuildContext), isDesktop(BuildContext)
-     - optional: ResponsiveLayout widget or a selectForWidth<T>(maxWidth, mobile, tablet, desktop) helper.
+     - breakpoint constants (MOBILE_MAX, DESKTOP_MIN)
+     - helpers: bool isMobile(BuildContext), isDesktop(BuildContext)
+     - optional: ResponsiveLayout widget or a selectForWidth<T>(maxWidth, mobile, desktop) helper.
 
 3. Implement responsive Footer widget
    - File: lib/footer.dart (modify existing)
@@ -82,7 +81,6 @@ These breakpoints must be configurable via constants in a single helper file.
 
 6. QA checklist (manual)
    - Run app in mobile emulator, portrait and landscape. Confirm stacking and spacing.
-   - Run app in tablet emulator. Confirm 2-column layout and legibility.
    - Open app in desktop browser at large width. Confirm 3-column layout, no overflow, and email keyboard focus/clearing.
    - Verify no overflow exceptions in debug output.
 
