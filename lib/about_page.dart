@@ -33,7 +33,8 @@ class AboutPage extends StatelessWidget {
                       Text(
                           "We're dedicated to giving you the very best University branded products, with a range of clothing and merchandise avaliable to shop all year round! We even offer an exclusive"),
                       Text('personalisation service!',
-                          style: TextStyle(decoration: TextDecoration.underline)),
+                          style:
+                              TextStyle(decoration: TextDecoration.underline)),
                       Padding(
                         padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
                         child: Text(

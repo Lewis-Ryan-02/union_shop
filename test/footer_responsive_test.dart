@@ -3,7 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:union_shop/footer.dart';
 
 void main() {
-  testWidgets('Footer renders Column on mobile width 360', (WidgetTester tester) async {
+  testWidgets('Footer renders Column on mobile width 360',
+      (WidgetTester tester) async {
     const width = 360.0;
     await tester.pumpWidget(
       const MaterialApp(
@@ -18,13 +19,16 @@ void main() {
 
     // Expect section titles and email/subscribe exist on mobile
     expect(find.byKey(const Key('footer_section_left_title')), findsOneWidget);
-    expect(find.byKey(const Key('footer_section_middle_title')), findsOneWidget);
+    expect(
+        find.byKey(const Key('footer_section_middle_title')), findsOneWidget);
     expect(find.byKey(const Key('footer_section_right_title')), findsOneWidget);
     expect(find.byKey(const Key('footer_email_field')), findsOneWidget);
     expect(find.byKey(const Key('footer_subscribe_button')), findsOneWidget);
   });
 
-  testWidgets('Footer renders Row with three Expanded children at desktop width 1366', (WidgetTester tester) async {
+  testWidgets(
+      'Footer renders Row with three Expanded children at desktop width 1366',
+      (WidgetTester tester) async {
     const width = 1366.0;
     await tester.pumpWidget(
       const MaterialApp(
@@ -38,15 +42,18 @@ void main() {
     await tester.pumpAndSettle();
 
     // Find a Row inside the scaffold and ensure it has Expanded children (3 main sections)
-    final rowFinder = find.descendant(of: find.byType(Scaffold), matching: find.byType(Row));
+    final rowFinder =
+        find.descendant(of: find.byType(Scaffold), matching: find.byType(Row));
     expect(rowFinder, findsOneWidget);
 
-    final expandedFinder = find.descendant(of: rowFinder, matching: find.byType(Expanded));
+    final expandedFinder =
+        find.descendant(of: rowFinder, matching: find.byType(Expanded));
     expect(expandedFinder, findsNWidgets(3));
 
     // Ensure all section titles and controls are present on desktop as well
     expect(find.byKey(const Key('footer_section_left_title')), findsOneWidget);
-    expect(find.byKey(const Key('footer_section_middle_title')), findsOneWidget);
+    expect(
+        find.byKey(const Key('footer_section_middle_title')), findsOneWidget);
     expect(find.byKey(const Key('footer_section_right_title')), findsOneWidget);
     expect(find.byKey(const Key('footer_email_field')), findsOneWidget);
     expect(find.byKey(const Key('footer_subscribe_button')), findsOneWidget);
