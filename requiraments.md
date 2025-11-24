@@ -118,3 +118,114 @@ These breakpoints must be configurable via constants in a single helper file.
 - If additional screens require responsive behavior, reuse lib/responsive.dart helpers.
 
 End of requirements.
+
+# Responsive Header — Detailed Requirements
+
+Summary
+---
+Convert the existing Header widget so that on narrow/mobile screens it no longer renders the full inline menu (causes overflow). Instead, show a compact header with a menu icon that opens a Drawer. Desktop/tablet keep the existing inline header (dropdowns + buttons).
+
+User stories
+---
+- As a mobile user, I want a compact header and a Drawer menu so the header never overflows and navigation is usable on small screens.
+  - Acceptance: On small widths tapping the menu icon opens a Drawer containing all navigation. No overflow occurs.
+- As a user, I want the Shop and Print menus to be expandable sublists in the Drawer so I can browse categories easily.
+  - Acceptance: Drawer shows ExpansionTiles for Shop and Print with items from _shopText and _printText; tapping an item navigates.
+- As a user, I want quick access to Home, About and SALE! from the Drawer as normal buttons.
+  - Acceptance: Drawer contains ListTiles for Home, SALE!, About that navigate to their routes.
+- As a desktop user, I want the existing header layout to remain unchanged.
+  - Acceptance: On wide widths the header still shows DropdownButtons and inline icons.
+
+Breakpoints / Detection
+---
+- Use MediaQuery or LayoutBuilder to detect mobile:
+  - Default breakpoint: width < 600 logical pixels = mobile. Make breakpoint easily configurable if needed.
+- Behavior:
+  - width < 600: compact header with menu IconButton that opens Drawer.
+  - width >= 600: current desktop header layout (unchanged).
+
+Drawer structure and behavior
+---
+- Parent Scaffold: add drawer: Drawer(...) containing the menu. The page(s) using Header must pass a Scaffold that includes this drawer.
+- Header:
+  - On mobile show an AppBar-like Row: leading IconButton(icon: Icons.menu) -> open drawer (Scaffold.of(context).openDrawer()) and the same logo (tap navigates home).
+  - Keep other top-row elements minimal to avoid overflow (e.g., optional small icons).
+- Drawer content (ListView):
+  - DrawerHeader or equivalent at top with logo and optional subtitle.
+  - Primary ListTile entries:
+    - Home -> call navigateToHome(context)
+    - SALE! -> call navigateToAbout(context) (or dedicated sale route if exists)
+    - About -> call navigateToAbout(context)
+  - ExpansionTile: "Shop"
+    - children: one ListTile per value in Header._shopText (skip heading item if it is the title like 'shop' if needed).
+    - Tapping a ListTile should close Drawer then navigate: Navigator.pop(context); navigateToProduct(context) (or route appropriate to the item).
+  - ExpansionTile: "Print"
+    - children: one ListTile per value in Header._printText.
+    - Tapping closes Drawer then navigates to the print/product route.
+  - Footer (optional): small IconButtons or ListTiles for Search, Account, Cart, that call placeholderCallbackForButtons or real handlers.
+- Drawer UX:
+  - Always close the Drawer before navigation (Navigator.pop(context) then call navigation function).
+  - Use ExpansionTile for collapsible lists.
+  - Make ListTiles accessible (semantic labels, tap targets >= 48dp).
+
+Navigation preservation
+---
+- Reuse existing navigateToHome, navigateToProduct, navigateToAbout functions in Header.
+- If a specific shop/print item requires a different route or parameter, extend navigateToProduct or add a new navigation helper that accepts an identifier.
+- Ensure routes and navigation behavior remain consistent across mobile and desktop.
+
+Desktop behavior / backward compatibility
+---
+- Desktop/tablet: keep DropdownButton behavior and inline navigation unchanged.
+- No Drawer should be shown automatically on wide screens (drawer remains available only if the page's Scaffold has it, but Header must not render the menu icon for wide screens).
+
+Implementation notes / developer hints
+---
+- Add the Drawer to the Scaffold that renders Header. Example structure:
+  - Scaffold(
+      drawer: MyHeaderDrawer(...),
+      body: Column(children: [Header(), ...])
+    )
+- In Header.build:
+  - if (MediaQuery.of(context).size.width < 600) return mobile header Row; else return existing header Container.
+- Implement a small helper widget/function for the Drawer contents (e.g., HeaderDrawer) to keep Header small.
+- When creating ListTile onTap:
+  - onTap: () { Navigator.pop(context); navigateToHome(context); }
+- For Shop/Print tiles if navigation should vary with item:
+  - onTap: () { Navigator.pop(context); navigateToProductWithId(context, idOrName); }
+- Keep existing errorBuilder for logo image and keep the top sale banner unchanged.
+
+Non-functional requirements
+---
+- Accessibility: all tappable items have tooltips/semantic labels. ExpansionTiles announce expanded state.
+- Performance: Drawer build should be cheap; reuse _shopText/_printText lists.
+- Styling: match existing header colors and text styles. Maintain visual hierarchy and spacing consistent with current header.
+
+Edge cases / additional considerations
+---
+- Landscape phone: still use mobile layout if width < breakpoint.
+- Very narrow devices: ensure Drawer content is scrollable (ListView) and no overflow.
+- Tablet near breakpoint: consider raising breakpoint if target devices still overflow (configurable).
+- If some drawer items need parameters (e.g., different product pages), update navigation helpers accordingly.
+
+Acceptance criteria (done checklist)
+---
+- [ ] Header does not overflow on mobile device widths (<600).
+- [ ] Mobile header shows menu icon and logo only; tapping menu opens Drawer.
+- [ ] Drawer includes:
+  - [ ] Home, SALE!, About as ListTiles that navigate and close Drawer.
+  - [ ] Shop ExpansionTile with each _shopText entry as a ListTile that closes Drawer and navigates.
+  - [ ] Print ExpansionTile with each _printText entry as a ListTile that closes Drawer and navigates.
+  - [ ] Search/Account/Cart icons available either as AppBar actions or in Drawer footer.
+- [ ] Desktop/tablet header is unchanged (inline dropdowns + inline buttons work as before).
+- [ ] Drawer closes before navigation and navigation targets are identical to desktop.
+- [ ] Tappable targets meet accessibility guidelines (size/labels).
+- [ ] Manual test on a phone emulator: open/close Drawer, expand Shop/Print, tap entries — navigation occurs and header no longer overflows.
+
+Deliverables
+---
+- Modified Header widget: renders mobile/desktop variants.
+- New Drawer widget or Drawer contents added to the parent Scaffold.
+- Small documentation/update in the code comments describing the breakpoint and how to customize it.
+
+END OF REQUIREMENTS
