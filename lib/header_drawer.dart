@@ -58,16 +58,6 @@ class HeaderDrawer extends StatelessWidget {
               dense: false,
               visualDensity: VisualDensity.compact,
             ),
-            ListTile(
-              leading: const Icon(Icons.local_offer),
-              title: const Text('SALE!'),
-              onTap: () => _navigateTo(context, '/about'),
-            ),
-            ListTile(
-              leading: const Icon(Icons.info_outline),
-              title: const Text('About'),
-              onTap: () => _navigateTo(context, '/about'),
-            ),
             ExpansionTile(
               leading: const Icon(Icons.store),
               title: const Text('Shop'),
@@ -94,36 +84,16 @@ class HeaderDrawer extends StatelessWidget {
                       ))
                   .toList(),
             ),
-            const Divider(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    tooltip: 'Search',
-                    icon: const Icon(Icons.search),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  IconButton(
-                    tooltip: 'Account',
-                    icon: const Icon(Icons.person_outline),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  IconButton(
-                    tooltip: 'Cart',
-                    icon: const Icon(Icons.shopping_bag_outlined),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
-              ),
-            )
+            ListTile(
+              leading: const Icon(Icons.local_offer),
+              title: const Text('SALE!'),
+              onTap: () => _navigateTo(context, '/about'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.info_outline),
+              title: const Text('About'),
+              onTap: () => _navigateTo(context, '/about'),
+            ),
           ],
         ),
       ),
