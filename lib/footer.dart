@@ -132,7 +132,7 @@ class _FooterState extends State<Footer> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      final bool mobile = constraints.maxWidth < MOBILE_MAX;
+      final bool mobile = constraints.maxWidth < mobileMax;
       const TextStyle mobileStyle =
           TextStyle(fontSize: 14, color: Colors.black87);
       const TextStyle desktopStyle =

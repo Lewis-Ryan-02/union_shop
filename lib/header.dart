@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:union_shop/responsive.dart';
+import 'package:union_shop/header_drawer.dart';
 
 class Header extends StatelessWidget {
   const Header({super.key});
@@ -37,7 +39,7 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
+      constraints: const BoxConstraints(minHeight: 100),
       color: Colors.white,
       child: Column(
         children: [
@@ -53,141 +55,229 @@ class Header extends StatelessWidget {
             ),
           ),
           // Main header
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      navigateToHome(context);
-                    },
-                    child: Image.network(
-                      'https://shop.upsu.net/cdn/shop/files/upsu_300x300.png?v=1614735854',
-                      height: 18,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          color: Colors.grey[300],
-                          width: 18,
-                          height: 18,
-                          child: const Center(
-                            child: Icon(Icons.image_not_supported,
-                                color: Colors.grey),
-                          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            constraints: const BoxConstraints(minHeight: 56),
+            child: LayoutBuilder(
+              builder: (ctx, constraints) {
+                if (isMobile(context)) {
+                  return Row(
+                    children: [
+                      // Logo at the left
+                      GestureDetector(
+                        onTap: () {
+                          navigateToHome(context);
+                        },
+                        child: Image.network(
+                          'https://shop.upsu.net/cdn/shop/files/upsu_300x300.png?v=1614735854',
+                          height: 24,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              color: Colors.grey[300],
+                              width: 24,
+                              height: 24,
+                              child: const Center(
+                                child: Icon(Icons.image_not_supported,
+                                    color: Colors.grey),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      const Spacer(),
+                      // Keep a few action icons accessible on mobile
+                      IconButton(
+                        tooltip: 'Search',
+                        icon: const Icon(Icons.search, color: Colors.grey),
+                        padding: const EdgeInsets.all(6),
+                        constraints:
+                            const BoxConstraints(minWidth: 36, minHeight: 36),
+                        onPressed: placeholderCallbackForButtons,
+                      ),
+                      IconButton(
+                        tooltip: 'Cart',
+                        icon: const Icon(Icons.shopping_bag_outlined,
+                            color: Colors.grey),
+                        padding: const EdgeInsets.all(6),
+                        constraints:
+                            const BoxConstraints(minWidth: 36, minHeight: 36),
+                        onPressed: placeholderCallbackForButtons,
+                      ),
+                      // Menu on the right — open our modal drawer so pages
+                      // don't need to provide a Scaffold drawer.
+                      Builder(builder: (ctx) {
+                        return IconButton(
+                          icon: const Icon(Icons.menu, color: Colors.grey),
+                          tooltip: 'Open navigation menu',
+                          padding: const EdgeInsets.all(8),
+                          constraints:
+                              const BoxConstraints(minWidth: 36, minHeight: 36),
+                          onPressed: () {
+                            showModalBottomSheet<void>(
+                              context: ctx,
+                              isScrollControlled: true,
+                              builder: (sheetCtx) => SizedBox(
+                                height:
+                                    MediaQuery.of(sheetCtx).size.height * 0.8,
+                                child: const HeaderDrawer(),
+                              ),
+                            );
+                          },
                         );
+                      }),
+                    ],
+                  );
+                }
+
+                // Desktop / wide layout
+                return Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        navigateToHome(context);
                       },
+                      child: Image.network(
+                        'https://shop.upsu.net/cdn/shop/files/upsu_300x300.png?v=1614735854',
+                        height: 18,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            color: Colors.grey[300],
+                            width: 18,
+                            height: 18,
+                            child: const Center(
+                              child: Icon(Icons.image_not_supported,
+                                  color: Colors.grey),
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                  const Spacer(),
-                  GestureDetector(
-                    onTap: () => {navigateToHome(context)},
-                    child: const SizedBox(
-                        width: 60, child: Center(child: Text('Home'))),
-                  ),
-                  DropdownButton(
-                    value: _shopText[0],
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    onChanged: (String? newValue) {
-                      navigateToProduct(context);
-                    },
-                    icon: const Icon(Icons.arrow_downward),
-                    items:
-                        _shopText.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                  DropdownButton(
-                    value: _printText[0],
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    onChanged: (String? newValue) {
-                      navigateToProduct(context);
-                    },
-                    icon: const Icon(Icons.arrow_downward),
-                    items: _printText
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                  GestureDetector(
-                    onTap: () => {navigateToAbout(context)},
-                    child: const SizedBox(
-                        width: 60, child: Center(child: Text('SALE!'))),
-                  ),
-                  GestureDetector(
-                    onTap: () => {navigateToAbout(context)},
-                    child: const SizedBox(
-                        width: 60, child: Center(child: Text('About'))),
-                  ),
-                  const Spacer(),
-                  ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 600),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: const Icon(
-                            Icons.search,
-                            size: 18,
-                            color: Colors.grey,
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              navigateToHome(context);
+                            },
+                            child: const SizedBox(
+                                width: 60, child: Center(child: Text('Home'))),
                           ),
-                          padding: const EdgeInsets.all(8),
-                          constraints: const BoxConstraints(
-                            minWidth: 32,
-                            minHeight: 32,
+                          const SizedBox(width: 8),
+                          Flexible(
+                            child: DropdownButton(
+                              isDense: true,
+                              isExpanded: true,
+                              value: _shopText[0],
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              onChanged: (String? newValue) {
+                                navigateToProduct(context);
+                              },
+                              icon: const Icon(Icons.arrow_downward),
+                              items: _shopText.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
                           ),
-                          onPressed: placeholderCallbackForButtons,
-                        ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.person_outline,
-                            size: 18,
-                            color: Colors.grey,
+                          const SizedBox(width: 8),
+                          Flexible(
+                            child: DropdownButton(
+                              isDense: true,
+                              isExpanded: true,
+                              value: _printText[0],
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              onChanged: (String? newValue) {
+                                navigateToProduct(context);
+                              },
+                              icon: const Icon(Icons.arrow_downward),
+                              items: _printText.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
                           ),
-                          padding: const EdgeInsets.all(8),
-                          constraints: const BoxConstraints(
-                            minWidth: 32,
-                            minHeight: 32,
+                          const SizedBox(width: 8),
+                          GestureDetector(
+                            onTap: () {
+                              navigateToAbout(context);
+                            },
+                            child: const SizedBox(
+                                width: 60, child: Center(child: Text('SALE!'))),
                           ),
-                          onPressed: placeholderCallbackForButtons,
-                        ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.shopping_bag_outlined,
-                            size: 18,
-                            color: Colors.grey,
+                          const SizedBox(width: 8),
+                          GestureDetector(
+                            onTap: () {
+                              navigateToAbout(context);
+                            },
+                            child: const SizedBox(
+                                width: 60, child: Center(child: Text('About'))),
                           ),
-                          padding: const EdgeInsets.all(8),
-                          constraints: const BoxConstraints(
-                            minWidth: 32,
-                            minHeight: 32,
-                          ),
-                          onPressed: placeholderCallbackForButtons,
-                        ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.menu,
-                            size: 18,
-                            color: Colors.grey,
-                          ),
-                          padding: const EdgeInsets.all(8),
-                          constraints: const BoxConstraints(
-                            minWidth: 32,
-                            minHeight: 32,
-                          ),
-                          onPressed: placeholderCallbackForButtons,
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 600),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(
+                              Icons.search,
+                              size: 18,
+                              color: Colors.grey,
+                            ),
+                            padding: const EdgeInsets.all(8),
+                            constraints: const BoxConstraints(
+                              minWidth: 32,
+                              minHeight: 32,
+                            ),
+                            onPressed: placeholderCallbackForButtons,
+                          ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.person_outline,
+                              size: 18,
+                              color: Colors.grey,
+                            ),
+                            padding: const EdgeInsets.all(8),
+                            constraints: const BoxConstraints(
+                              minWidth: 32,
+                              minHeight: 32,
+                            ),
+                            onPressed: placeholderCallbackForButtons,
+                          ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.shopping_bag_outlined,
+                              size: 18,
+                              color: Colors.grey,
+                            ),
+                            padding: const EdgeInsets.all(8),
+                            constraints: const BoxConstraints(
+                              minWidth: 32,
+                              minHeight: 32,
+                            ),
+                            onPressed: placeholderCallbackForButtons,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ],
