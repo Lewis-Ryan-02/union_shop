@@ -32,6 +32,10 @@ class Header extends StatelessWidget {
     Navigator.pushNamed(context, '/about');
   }
 
+  void navigateToSignIn(BuildContext context) {
+    Navigator.pushNamed(context, '/signin');
+  }
+
   void placeholderCallbackForButtons() {
     // This is the event handler for buttons that don't work yet
   }
@@ -106,7 +110,7 @@ class Header extends StatelessWidget {
                               minWidth: 32,
                               minHeight: 32,
                             ),
-                            onPressed: placeholderCallbackForButtons,
+                            onPressed: () => navigateToSignIn(context),
                           ),
                       IconButton(
                         tooltip: 'Cart',
@@ -270,7 +274,7 @@ class Header extends StatelessWidget {
                               minWidth: 32,
                               minHeight: 32,
                             ),
-                            onPressed: placeholderCallbackForButtons,
+                            onPressed: () =>navigateToSignIn(context),
                           ),
                           IconButton(
                             icon: const Icon(

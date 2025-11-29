@@ -5,6 +5,7 @@ import 'package:union_shop/about_page.dart';
 import 'package:union_shop/header.dart';
 import 'package:union_shop/responsive.dart';
 import 'package:union_shop/helper_widgets.dart';
+import 'package:union_shop/sign_in_page.dart';
 
 void main() {
   runApp(const UnionShopApp());
@@ -28,7 +29,8 @@ class UnionShopApp extends StatelessWidget {
       // In your browser, try this link: http://localhost:49856/#/product
       routes: {
         '/product': (context) => const ProductPage(),
-        '/about': (context) => const AboutPage()
+        '/about': (context) => const AboutPage(),
+        '/signin' : (context) => SignInScreen(),
       },
     );
   }
