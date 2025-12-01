@@ -16,7 +16,8 @@ void main() {
 
       // Check that basic UI elements are present
       expect(
-        find.text('PLACEHOLDER HEADER TEXT - STUDENTS TO UPDATE!'),
+        find.text(
+            'BIG SALE! OUR ESSENTIAL RANGE HAS DROPPED IN PRICE! OVER 20% OFF! COME GRAB YOURS WHILE STOCK LASTS!'),
         findsOneWidget,
       );
       expect(find.text('Placeholder Product Name'), findsOneWidget);
@@ -31,14 +32,17 @@ void main() {
       // Check that student instruction is present
       expect(
         find.text(
-          'Students should add size options, colour options, quantity selector, add to cart button, and buy now button here.',
+          'This is a placeholder description for the product. Students should replace this with real product information and implement proper data management.',
         ),
         findsOneWidget,
       );
     });
 
     testWidgets('should display header icons', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(MediaQuery(
+        data: const MediaQueryData(size: Size(390, 844), devicePixelRatio: 1.0),
+        child: createTestWidget(),
+      ));
       await tester.pump();
 
       // Check that header icons are present
@@ -52,11 +56,9 @@ void main() {
       await tester.pump();
 
       // Check that footer is present
-      expect(find.text('Placeholder Footer'), findsOneWidget);
-      expect(
-        find.text('Students should customise this footer section'),
-        findsOneWidget,
-      );
+      expect(find.byKey(const Key('footer_section_left_title')), findsOneWidget);
+      expect(find.byKey(const Key('footer_section_middle_title')), findsOneWidget);
+      expect(find.byKey(const Key('footer_section_right_title')), findsOneWidget);
     });
   });
 }
