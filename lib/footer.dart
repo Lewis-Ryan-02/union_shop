@@ -91,7 +91,6 @@ class _FooterState extends State<Footer> {
       ),
     );
 
-    if (desktop) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -104,29 +103,9 @@ class _FooterState extends State<Footer> {
           subscribeButton,
         ],
       );
-    }
 
     // Mobile layout: put the email field and button on a single row so the
     // subscribe button remains visible without vertical space constraints.
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Subscribe',
-            key: const Key('footer_section_right_title'),
-            style: textStyle.copyWith(fontWeight: FontWeight.bold)),
-        const SizedBox(height: 6),
-        Row(
-          children: [
-            Expanded(child: emailField),
-            const SizedBox(width: 8),
-            ConstrainedBox(
-              constraints: const BoxConstraints(minWidth: 88, minHeight: 40),
-              child: subscribeButton,
-            ),
-          ],
-        ),
-      ],
-    );
   }
 
   @override
