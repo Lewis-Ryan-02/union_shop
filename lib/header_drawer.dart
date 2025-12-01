@@ -66,7 +66,7 @@ class HeaderDrawer extends StatelessWidget {
                         title: Text(s),
                         onTap: () {
                           Navigator.pop(context);
-                          Navigator.pushNamed(context, '/product');
+                          Navigator.pushNamed(context, '/collections');
                         },
                       ))
                   .toList(),
@@ -87,7 +87,7 @@ class HeaderDrawer extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.local_offer),
               title: const Text('SALE!'),
-              onTap: () => _navigateTo(context, '/about'),
+              onTap: () => _navigateTo(context, '/collections/sale'),
             ),
             ListTile(
               leading: const Icon(Icons.info_outline),

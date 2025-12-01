@@ -16,11 +16,11 @@ class CollectionsPage extends StatelessWidget {
           ProductSection(title: 'Collections',
           desktopCount: 3, mobileCount: 2,
           children: [
-            ProductOverlay(imageUrl: testUrl, title: 'Graduation'),
+            ProductOverlay(imageUrl: testUrl, title: 'Graduation', path: '/collections/graduation'),
             ProductOverlay(imageUrl: testUrl, title: 'Clothing'),
             ProductOverlay(imageUrl: testUrl, title: 'Essential Range'),
             ProductOverlay(imageUrl: testUrl, title: 'Pride Collection'),
-            ProductOverlay(imageUrl: testUrl, title: 'SALE'),
+            ProductOverlay(imageUrl: testUrl, title: 'SALE', path: '/collections/sale'),
             ProductOverlay(imageUrl: testUrl, title: 'Portsmouth City Collection'),
           ]),
           Footer(),

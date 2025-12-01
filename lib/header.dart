@@ -36,6 +36,15 @@ class Header extends StatelessWidget {
     Navigator.pushNamed(context, '/signin');
   }
 
+  void navigateToSale(BuildContext context) {
+    Navigator.pushNamed(context, '/collections/sale');
+  }
+  void navigateToGraduation(BuildContext context) {
+    Navigator.pushNamed(context, '/collections/graduation');
+  }
+  void navigateToCollections(BuildContext context) {
+    Navigator.pushNamed(context, '/collections');
+  }
   void placeholderCallbackForButtons() {
     // This is the event handler for buttons that don't work yet
   }
@@ -229,7 +238,7 @@ class Header extends StatelessWidget {
                           const SizedBox(width: 8),
                           GestureDetector(
                             onTap: () {
-                              navigateToAbout(context);
+                              navigateToSale(context);
                             },
                             child: const SizedBox(
                                 width: 60, child: Center(child: Text('SALE!'))),

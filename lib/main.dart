@@ -38,6 +38,12 @@ class UnionShopApp extends StatelessWidget {
         '/collections/graduation': (context) => const GraduationPage(),
         '/collections/sale': (context) => const SalePage(),
       },
+      onUnknownRoute: (settings) => MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(title: const Text('Page Not Found')),
+          body: const Center(child: Text('404 - Page Not Found')),
+        ),
+      ),
     );
   }
 }
@@ -69,7 +75,6 @@ class HomeScreen extends StatelessWidget {
           children: [
             // Header
             const Header(),
-
             // Hero Section
             SizedBox(
               height: 400,
@@ -103,17 +108,18 @@ class HomeScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Text(
-                          'Placeholder Hero Title',
+                          'Welcome to the Union shop',
                           style: TextStyle(
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                             height: 1.2,
                           ),
+                          textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 16),
                         const Text(
-                          "This is placeholder text for the hero section.",
+                          "Your one-stop shop for about three items",
                           style: TextStyle(
                             fontSize: 20,
                             color: Colors.white,
@@ -124,7 +130,7 @@ class HomeScreen extends StatelessWidget {
                         const SizedBox(height: 32),
                         ElevatedButton(
                           onPressed: () =>
-                              Navigator.pushNamed(context, '/product'),
+                              Navigator.pushNamed(context, '/collections'),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF4d2963),
                             foregroundColor: Colors.white,
@@ -133,7 +139,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                           child: const Text(
-                            'BROWSE PRODUCTS',
+                            'BROWSE COLLECTIONS',
                             style: TextStyle(fontSize: 14, letterSpacing: 1),
                           ),
                         ),
@@ -257,10 +263,12 @@ class HomeScreen extends StatelessWidget {
                           'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282'),
                   ProductOverlay(
                       title: 'Graduation',
+                      path: '/collections/graduation',
                       imageUrl:
                           'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282'),
                   ProductOverlay(
                       title: 'Sale',
+                      path: '/collections/sale',
                       imageUrl:
                           'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282'),
                 ]),

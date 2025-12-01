@@ -22,14 +22,19 @@ class IfWidget extends StatelessWidget {
 
 class ProductOverlay extends StatelessWidget {
   const ProductOverlay(
-      {super.key, required this.imageUrl, required this.title});
+      {super.key, required this.imageUrl, required this.title, this.path = '/product'});
 
   final String title;
   final String imageUrl;
+  final String path;
+
+  void navigateToPath(BuildContext context) {
+    Navigator.pushNamed(context, path);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return GestureDetector( onTap: () => navigateToPath(context), child: Stack(
       children: [
         // Background image
         Positioned.fill(
@@ -70,7 +75,7 @@ class ProductOverlay extends StatelessWidget {
           ),
         ),
       ],
-    );
+    ));
   }
 }
 
