@@ -4,7 +4,7 @@ import 'package:union_shop/footer.dart';
 import 'package:union_shop/header.dart';
 
 const String testUrl =
-    'https://shop.upsu.net/cdn/shop/files/PortsmouthCityPostcard2_1024x1024@2x.jpg?v=1752232561';
+    'assets/images/placeholder_image.png';
 
 class IfWidget extends StatelessWidget {
   final Widget isTrue;
@@ -41,9 +41,9 @@ class ProductOverlay extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(
+                image: Image.asset(
                   imageUrl,
-                ),
+                ).image,
                 fit: BoxFit.cover,
               ),
             ),
@@ -146,7 +146,7 @@ class ProductCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: Image.network(
+            child: Image.asset(
               imageUrl,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {

@@ -84,11 +84,11 @@ class HomeScreen extends StatelessWidget {
                   // Background image
                   Positioned.fill(
                     child: Container(
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(
-                            'https://shop.upsu.net/cdn/shop/files/PortsmouthCityPostcard2_1024x1024@2x.jpg?v=1752232561',
-                          ),
+                          image: Image.asset(
+                            testUrl
+                          ).image,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -171,14 +171,14 @@ class HomeScreen extends StatelessWidget {
                   price: '£14.99',
                   discountPrice: '£20.00',
                   imageUrl:
-                      'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
+                      testUrl,
                 ),
                 ProductCard(
                   title: 'Essential T-Shirt',
                   price: '£6.99',
                   discountPrice: '£10.00',
                   imageUrl:
-                      'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
+                      testUrl,
                 ),
               ],
             ),
@@ -188,13 +188,13 @@ class HomeScreen extends StatelessWidget {
                 title: 'Signature Hoodie',
                 price: '£32.99',
                 imageUrl:
-                    'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
+                    testUrl,
               ),
               ProductCard(
                 title: 'Signature T-Shirt',
                 price: '£14.99',
                 imageUrl:
-                    'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
+                    testUrl,
               ),
             ]),
 
@@ -206,25 +206,25 @@ class HomeScreen extends StatelessWidget {
                   title: 'Portsmouth City Postcard',
                   price: '£1.00',
                   imageUrl:
-                      'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
+                      testUrl,
                 ),
                 ProductCard(
                   title: 'Portsmouth City Magnet',
                   price: '£4.50',
                   imageUrl:
-                      'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
+                      testUrl,
                 ),
                 ProductCard(
                   title: 'Portsmouth City Bookmark',
                   price: '£3.00',
                   imageUrl:
-                      'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
+                      testUrl,
                 ),
                 ProductCard(
                   title: 'Portsmouth City Notebook',
                   price: '£7.50',
                   imageUrl:
-                      'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
+                      testUrl,
                 ),
               ],
             ),
@@ -256,21 +256,21 @@ class HomeScreen extends StatelessWidget {
                   ProductOverlay(
                       title: 'Clothing',
                       imageUrl:
-                          'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282'),
+                          testUrl),
                   ProductOverlay(
                       title: 'Merchandise',
                       imageUrl:
-                          'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282'),
+                          testUrl),
                   ProductOverlay(
                       title: 'Graduation',
                       path: '/collections/graduation',
                       imageUrl:
-                          'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282'),
+                          testUrl),
                   ProductOverlay(
                       title: 'Sale',
                       path: '/collections/sale',
                       imageUrl:
-                          'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282'),
+                          testUrl),
                 ]),
 
             const SizedBox(height: 48),
@@ -280,8 +280,8 @@ class HomeScreen extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               children: [
                 const Image(
-                  image: NetworkImage(
-                      'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282'),
+                  image: AssetImage(
+                      testUrl),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
