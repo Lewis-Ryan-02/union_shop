@@ -7,6 +7,7 @@ import 'package:union_shop/responsive.dart';
 import 'package:union_shop/helper_widgets.dart';
 import 'package:union_shop/sign_in_page.dart';
 import 'package:union_shop/collections.dart';
+import 'package:union_shop/graduation_page.dart';
 
 void main() {
   runApp(const UnionShopApp());
@@ -33,6 +34,7 @@ class UnionShopApp extends StatelessWidget {
         '/about': (context) => const AboutPage(),
         '/signin' : (context) => SignInScreen(),
         '/collections': (context) => const CollectionsPage(),
+        '/collections/graduation': (context) => const GraduationPage(),
       },
     );
   }

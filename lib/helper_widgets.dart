@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/responsive.dart';
+import 'package:union_shop/footer.dart';
+import 'package:union_shop/header.dart';
 
-const String testUrl = 'https://shop.upsu.net/cdn/shop/files/PortsmouthCityPostcard2_1024x1024@2x.jpg?v=1752232561';
+const String testUrl =
+    'https://shop.upsu.net/cdn/shop/files/PortsmouthCityPostcard2_1024x1024@2x.jpg?v=1752232561';
 
 class IfWidget extends StatelessWidget {
   final Widget isTrue;
   final Widget? isFalse;
   final bool condition;
 
-  const IfWidget({super.key, required this.isTrue, this.isFalse, required this.condition});
+  const IfWidget(
+      {super.key, required this.isTrue, this.isFalse, required this.condition});
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +127,7 @@ class ProductCard extends StatelessWidget {
     required this.title,
     required this.price,
     required this.imageUrl,
-    this.path='/product',
+    this.path = '/product',
     this.discountPrice = '',
   });
 
@@ -131,7 +135,7 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/product');
+        Navigator.pushNamed(context, path);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -191,5 +195,81 @@ class ProductCard extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class CollectionItemPage extends StatelessWidget {
+  const CollectionItemPage({super.key, required this.title, required this.children});
+
+  final Widget title;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        const Header(),
+        title,
+        const Divider(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Filter by: '),
+            SizedBox(width: isMobile(context)?0:10),
+            DropdownButton<String>(
+              isDense: isMobile(context),
+              value: 'All Products',
+              items: const [
+                DropdownMenuItem(
+                    value: 'All Products', child: Text('All Products')),
+                DropdownMenuItem(
+                    value: 'Merchandise', child: Text('Merchandise')),
+              ],
+              onChanged: (String? newValue) {},
+              hint: const Text('Select'),
+            ),
+            const Text('Sort by: '),
+            SizedBox(width: isMobile(context) ? 0 : 10),
+            DropdownButton<String>(
+              isDense: isMobile(context),
+              items: const [
+                DropdownMenuItem(value: 'Featured', child: Text('Featured')),
+                DropdownMenuItem(
+                    value: 'Best Selling', child: Text('Best Selling')),
+                DropdownMenuItem(
+                    value: 'Alphabetical A-Z', child: Text('Alphabetical A-Z')),
+                DropdownMenuItem(
+                    value: 'Alphabetical Z-A', child: Text('Alphabetical Z-A')),
+                DropdownMenuItem(
+                    value: 'Price: Low to High',
+                    child: Text('Price: Low to High')),
+                DropdownMenuItem(
+                    value: 'Price: High to Low',
+                    child: Text('Price: High to Low')),
+                DropdownMenuItem(
+                    value: 'Date old to new', child: Text('Date old to new')),
+                DropdownMenuItem(
+                    value: 'Date new to old', child: Text('Date new to old')),
+              ],
+              onChanged: (String? newValue) {},
+              hint: const Text('Select'),
+            ),
+            SizedBox(width: isMobile(context) ? 0 : 20),
+            IfWidget(isTrue: Text('${children.length} products'), condition: isDesktop(context)),
+          ],
+        ),
+        const Divider(),
+        IfWidget(isTrue: Text('${children.length} products'), condition: isMobile(context)),
+         ProductSection(
+            title: '',
+            desktopCount: 3,
+            mobileCount: 2,
+            children: children),
+        const Footer(),
+      ],
+    )));
   }
 }
