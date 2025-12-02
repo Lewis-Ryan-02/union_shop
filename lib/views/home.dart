@@ -143,16 +143,20 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 48),
             const ProductSection(title: 'Signature range', children: [
               ProductCard(
-                title: 'Signature Hoodie',
-                price: '£32.99',
+                title: SignatureHoodieProductPage.title,
+                price: SignatureHoodieProductPage.price,
+                discountPrice: SignatureHoodieProductPage.discountPrice,
                 imageUrl:
-                    testUrl,
+                    SignatureHoodieProductPage.imageUrl,
+                    path: SignatureHoodieProductPage.path,
               ),
               ProductCard(
-                title: 'Signature T-Shirt',
-                price: '£14.99',
+                title: SignatureTShirtProductPage.title,
+                price: SignatureTShirtProductPage.price,
+                discountPrice: SignatureTShirtProductPage.discountPrice,
                 imageUrl:
-                    testUrl,
+                    SignatureTShirtProductPage.imageUrl,
+                    path: SignatureTShirtProductPage.path,
               ),
             ]),
 
@@ -161,28 +165,36 @@ class HomeScreen extends StatelessWidget {
               title: 'Portsmouth City Collection',
               children: [
                 ProductCard(
-                  title: 'Portsmouth City Postcard',
-                  price: '£1.00',
+                  title: PostCardProductPage.title,
+                  price: PostCardProductPage.price,
+                  discountPrice: PostCardProductPage.discountPrice,
                   imageUrl:
-                      testUrl,
+                      PostCardProductPage.imageUrl,
+                      path: PostCardProductPage.path,
                 ),
                 ProductCard(
-                  title: 'Portsmouth City Magnet',
-                  price: '£4.50',
+                  title: MagnetProductPage.title,
+                  price: MagnetProductPage.price,
+                  discountPrice: MagnetProductPage.discountPrice,
                   imageUrl:
-                      testUrl,
+                      MagnetProductPage.imageUrl,
+                      path: MagnetProductPage.path,
                 ),
                 ProductCard(
-                  title: 'Portsmouth City Bookmark',
-                  price: '£3.00',
+                  title: BookmarkProductPage.title,
+                  price: BookmarkProductPage.price,
+                  discountPrice: BookmarkProductPage.discountPrice,
                   imageUrl:
-                      testUrl,
+                      BookmarkProductPage.imageUrl,
+                      path: BookmarkProductPage.path,
                 ),
                 ProductCard(
-                  title: 'Portsmouth City Notebook',
-                  price: '£7.50',
+                  title: NotebookProductPage.title,
+                  price: NotebookProductPage.price,
+                  discountPrice: NotebookProductPage.discountPrice,
                   imageUrl:
-                      testUrl,
+                      NotebookProductPage.imageUrl,
+                      path: NotebookProductPage.path,
                 ),
               ],
             ),
@@ -212,11 +224,13 @@ class HomeScreen extends StatelessWidget {
                 mobileCount: 2,
                 children: [
                   ProductOverlay(
-                      title: 'Clothing',
+                      title: 'Signature Range',
+                      path: '/collections/signature-range',
                       imageUrl:
                           testUrl),
                   ProductOverlay(
-                      title: 'Merchandise',
+                      title: 'Portsmouth City Collection',
+                      path: '/collections/portsmouth-city',
                       imageUrl:
                           testUrl),
                   ProductOverlay(

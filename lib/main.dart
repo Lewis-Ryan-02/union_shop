@@ -7,6 +7,8 @@ import 'package:union_shop/views/graduation_page.dart';
 import 'package:union_shop/views/sale_page.dart';
 import 'package:union_shop/views/home.dart';
 import 'package:union_shop/products.dart';
+import 'package:union_shop/views/city_page.dart';
+import 'package:union_shop/views/signature_page.dart';
 
 void main() {
   runApp(const UnionShopApp());
@@ -39,6 +41,8 @@ class UnionShopApp extends StatelessWidget {
         '/collections': (context) => const CollectionsPage(),
         '/collections/graduation': (context) => const GraduationPage(),
         '/collections/sale': (context) => const SalePage(),
+        '/collections/portsmouth-city': (context) => const PortsmouthCityCollectionPage(),
+        '/collections/signature-range': (context) => const SignaturePage(),
 
         TShirtProductPage.path: (context) => const TShirtProductPage(),
         HoodieProductPage.path: (context) => const HoodieProductPage(),
