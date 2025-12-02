@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:union_shop/header.dart';
-import 'package:union_shop/header_drawer.dart';
+import 'package:union_shop/widgets/header.dart';
+import 'package:union_shop/widgets/header_drawer.dart';
 
 void main() {
   testWidgets('Header shows mobile layout (menu icon) at 360px',

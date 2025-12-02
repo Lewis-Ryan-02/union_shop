@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:union_shop/helper_widgets.dart';
+import 'package:union_shop/widgets/helper_widgets.dart';
 import 'package:union_shop/products.dart';
 
 class GraduationPage extends StatelessWidget {

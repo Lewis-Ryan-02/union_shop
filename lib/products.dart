@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:union_shop/helper_widgets.dart';
-import 'package:union_shop/product_page.dart';
+import 'package:union_shop/widgets/helper_widgets.dart';
+import 'package:union_shop/views/product_page.dart';
 
 class TShirtProductPage extends StatelessWidget {
   const TShirtProductPage({super.key});

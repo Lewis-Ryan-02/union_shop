@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:union_shop/responsive.dart';
-import 'package:union_shop/header_drawer.dart';
+import 'package:union_shop/widgets/responsive.dart';
+import 'package:union_shop/widgets/header_drawer.dart';
 
 class Header extends StatelessWidget {
   const Header({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:union_shop/collections.dart';
+import 'package:union_shop/views/collections.dart';
 
 void main() {
   testWidgets('Collections Page displays product overlays', (tester) async {

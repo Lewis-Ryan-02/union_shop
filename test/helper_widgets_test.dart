@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:union_shop/helper_widgets.dart';
+import 'package:union_shop/widgets/helper_widgets.dart';
 
 void main() {
   testWidgets('IfWidget shows true branch when condition true', (tester) async {
