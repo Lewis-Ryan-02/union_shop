@@ -6,6 +6,12 @@ import 'package:union_shop/helper_widgets.dart';
 class ProductPage extends StatelessWidget {
   const ProductPage({super.key});
 
+  final List<DropdownMenuEntry<String>> colourItems = const [
+    DropdownMenuEntry(value: 'red', label: 'Red'),
+    DropdownMenuEntry(value: 'blue', label: 'Blue'),
+    DropdownMenuEntry(value: 'green', label: 'Green'),
+  ];
+
   void navigateToHome(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
   }
@@ -28,7 +34,8 @@ class ProductPage extends StatelessWidget {
               color: Colors.white,
               padding: const EdgeInsets.all(24),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Product image
                   Container(
@@ -94,6 +101,64 @@ class ProductPage extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 24),
+
+                  const Text('Colour'),
+                  DropdownMenu(width: MediaQuery.of(context).size.width, dropdownMenuEntries: colourItems,initialSelection: 'red',),
+                  const SizedBox(height: 12),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                        Column(
+                          children: [
+                            const Text('Size'),
+                            DropdownMenu(
+                              width: MediaQuery.of(context).size.width -110,
+                              initialSelection: 's',
+                              dropdownMenuEntries: const [
+                                DropdownMenuEntry(value: 's', label: 'S'),
+                                DropdownMenuEntry(value: 'm', label: 'M'),
+                                DropdownMenuEntry(value: 'l', label: 'L'),
+                                DropdownMenuEntry(value: 'xl', label: 'XL'),
+                                DropdownMenuEntry(value: 'xxl', label: 'XXL'),
+                              ],
+                            ),
+                          ],
+                        ),
+                      
+                      const Column(children: [
+                        Text('Quantity'),
+                        SizedBox(
+                          width: 60,
+                          child: TextField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              isDense: true,
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 8),
+                            ),
+                            keyboardType:
+                                TextInputType.numberWithOptions(signed: true),
+                          ),
+                        ),
+                      ]),
+                    ],
+                  ),
+
+                  const SizedBox(height: 24),
+                  ElevatedButton(
+                    onPressed: placeholderCallbackForButtons,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF4d2963),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 32, vertical: 16),
+                    ),
+                    child: const Text(
+                      'Add to Cart',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ),
 
                   // Product description
                   const Text(
