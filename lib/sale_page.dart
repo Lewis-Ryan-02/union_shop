@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/helper_widgets.dart';
+import 'package:union_shop/products.dart';
 
 class SalePage extends StatelessWidget {
   const SalePage({super.key});
@@ -20,25 +21,29 @@ class SalePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CollectionItemPage(title: title, children: const [
       ProductCard(
-          title: 'Hoodie',
-          price: '£25.00',
-          discountPrice: '£15.00',
-          imageUrl: testUrl),
+          title: EssentialHoodieProductPage.title,
+          price: EssentialHoodieProductPage.price,
+          discountPrice: EssentialHoodieProductPage.discountPrice,
+          imageUrl: EssentialHoodieProductPage.imageUrl,
+          path: EssentialHoodieProductPage.path),
       ProductCard(
-          title: 'Teddy Bear',
-          price: '£12.00',
-          discountPrice: '£10.00',
-          imageUrl: testUrl),
+          title: BeenieProductPage.title,
+          price: BeenieProductPage.price,
+          discountPrice: BeenieProductPage.discountPrice,
+          imageUrl: BeenieProductPage.imageUrl,
+          path: BeenieProductPage.path),
       ProductCard(
-          title: 'Notebook',
-          price: '£5.99',
-          discountPrice: '£3.99',
-          imageUrl: testUrl),
+          title: JeansProductPage.title,
+          price: JeansProductPage.price,
+          discountPrice: JeansProductPage.discountPrice,
+          imageUrl: JeansProductPage.imageUrl,
+          path: JeansProductPage.path),
       ProductCard(
-          title: 'T-Shirt',
-          price: '£18.00',
-          discountPrice: '£10.00',
-          imageUrl: testUrl),
+          title: EssentialTShirtProductPage.title,
+          price: EssentialTShirtProductPage.price,
+          discountPrice: EssentialTShirtProductPage.discountPrice,
+          imageUrl:EssentialTShirtProductPage.imageUrl,
+          path: EssentialTShirtProductPage.path),
     ]);
   }
 }

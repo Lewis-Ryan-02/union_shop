@@ -3,6 +3,7 @@ import 'package:union_shop/helper_widgets.dart';
 import 'package:union_shop/responsive.dart';
 import 'package:union_shop/header.dart';
 import 'package:union_shop/footer.dart';
+import 'package:union_shop/products.dart';
 
 
 class HomeScreen extends StatelessWidget {
@@ -124,18 +125,18 @@ class HomeScreen extends StatelessWidget {
               desktopCount: 2,
               children: [
                 ProductCard(
-                  title: 'Limited Edition Essential Zipper Hoodies',
-                  price: '£14.99',
-                  discountPrice: '£20.00',
+                  title: EssentialHoodieProductPage.title,
+                  price: EssentialHoodieProductPage.price,
+                  discountPrice: EssentialHoodieProductPage.discountPrice,
                   imageUrl:
-                      testUrl,
+                      EssentialHoodieProductPage.imageUrl,
                 ),
                 ProductCard(
-                  title: 'Essential T-Shirt',
-                  price: '£6.99',
-                  discountPrice: '£10.00',
+                  title: EssentialTShirtProductPage.title,
+                  price: EssentialTShirtProductPage.price,
+                  discountPrice: EssentialTShirtProductPage.discountPrice,
                   imageUrl:
-                      testUrl,
+                      EssentialTShirtProductPage.imageUrl,
                 ),
               ],
             ),

@@ -6,7 +6,7 @@ import 'package:union_shop/responsive.dart';
 class ProductPage extends StatelessWidget {
   ProductPage(
       {super.key,
-      this.testUrl = 'assets/images/placeholder_image.png',
+      this.imageUrl = 'assets/images/placeholder_image.png',
       required this.title,
       required this.description,
       required this.price,
@@ -14,7 +14,7 @@ class ProductPage extends StatelessWidget {
 
   final TextEditingController quantityController =
       TextEditingController(text: '1');
-  final String testUrl;
+  final String imageUrl;
   final String title;
   final String description;
   final String price;
@@ -86,7 +86,7 @@ class ProductPage extends StatelessWidget {
             child: AspectRatio(
               aspectRatio: 4 / 3,
               child: Image.asset(
-                testUrl,
+                imageUrl,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
