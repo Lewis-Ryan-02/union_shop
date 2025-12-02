@@ -229,3 +229,128 @@ Deliverables
 - Small documentation/update in the code comments describing the breakpoint and how to customize it.
 
 END OF REQUIREMENTS
+# Product Page — Responsive Requirements
+
+Version: 1.0  
+Target: Flutter (web + Android + iOS) — focus: mobile and web/desktop
+
+Summary
+- Make lib/product_page.dart responsive so the product image sits on the left of the page body (excluding header & footer) and product details sit to the right on wide viewports. On mobile the page stacks vertically. Reuse existing responsive helpers (lib/responsive.dart). Preserve existing Header and Footer behavior.
+
+Goals
+- Usable, readable product layout on phone and desktop/web.
+- Prevent RenderFlex overflow and horizontal scrolling.
+- Maintain accessible controls and keyboard navigation.
+- Provide automated widget tests covering representative widths.
+
+Breakpoints (configurable in lib/responsive.dart)
+- Mobile: width < 600 px
+- Desktop/Web: width >= 600 px
+
+Layout requirements
+- Global
+  - Header and Footer remain unchanged; responsive behavior applies only to the product body between them.
+  - The main product body is a two-column layout on desktop/web and a single stacked column on mobile.
+  - The product image column must be positioned to the left of the details column for desktop/web.
+- Desktop/Web (>=600 px)
+  - Left column: product image (primary), thumbnails underneath or below image.
+    - Image scales responsively, maintains aspect ratio (recommend AspectRatio or BoxFit.contain).
+    - Provide a sensible maxWidth for image column (e.g., 45%–55% of width) but do not use fixed pixel widths.
+  - Right column: product title, prices, tax text, attribute controls (Color, Size), Quantity control, Add to Cart / Buy buttons, related items or additional info.
+  - Controls layout: allow two-column grouping within details (e.g., attribute selectors + quantity), but ensure no fixed widths that cause overflow.
+- Mobile (<600 px)
+  - Single-column stacked flow: image, thumbnails, title, price, attributes, quantity, add-to-cart buttons, description.
+  - Larger vertical spacing and readable fonts for touch.
+  - No horizontal scroll at any point.
+
+Component specifics
+- Image
+  - Keep aspect ratio and center-cropped or contained behavior.
+  - Min touch/visibility area: on mobile allow thumbnails to be tappable with min target 44×44 dp.
+- Attribute controls (Color, Size)
+  - Use DropdownButton/DropdownMenu with adaptive width: expand to available width but respect a minWidth (>= 120 px or min touch target).
+  - Controls should not use hard-coded widths; prefer Expanded/Flexible wrappers.
+- Quantity control
+  - Use accessible +/- buttons and numeric display; buttons min 36–44 dp.
+- Primary actions
+  - Add to Cart and secondary payment buttons: full-width on mobile; constrained width on desktop but visible and aligned.
+- Text & wrapping
+  - Allow wrapping; avoid hard truncation unless intentionally set.
+  - Ensure discount/strike-through prices render without causing overflow.
+
+Accessibility
+- All interactive elements must be keyboard focusable and reachable in a logical order.
+- Provide semantic labels for icons, images (alt text), and form controls.
+- Ensure color contrast meets WCAG AA for body text and controls.
+- Provide focus visuals for keyboard navigation.
+- Ensure dropdowns, quantity, and Add to Cart work with keyboard and Enter/Space activation.
+
+Behavior & interactions
+- Header must continue to work without requiring page Scaffolds to supply a drawer (header already opens modal drawer).
+- Controls share the same behavior across platforms (web and mobile).
+- Text fields / dropdown clear and focus behavior should be correct on web and mobile.
+
+Automated tests (deliverables)
+- New tests file: test/product_page_responsive_test.dart
+- Tests (use tester.binding.setSurfaceSize and restore in tearDown)
+  1. Mobile (360 × 800)
+     - Render ProductPage
+     - Assert menu icon present (Header mobile), product image displayed above details, stacked layout (no side-by-side), find key elements (title, price, Add to Cart).
+     - Assert no RenderFlex overflow (tester.takeException() is null after pumpAndSettle).
+  2. Intermediate desktop (768 × 900)
+     - Render ProductPage
+     - Assert two-column layout: image column on left and details column on right (finders can check for a left-side image widget and a right-side details widget).
+     - Assert controls visible and no overflow.
+  3. Wide desktop (1366 × 900)
+     - Render ProductPage
+     - Assert desktop layout persists (left image, right details, optional right-most related column if implemented), inputs expand to available width but respect minimums, no overflow.
+- Tests must:
+  - Use pumpAndSettle; check tester.takeException() == null for overflow detection.
+  - Not rely on fragile widget tree internals (prefer semantic/finders by text, icon, or keys).
+  - Restore surface size in tearDown.
+
+Deliverables (concrete)
+- Modified file: lib/product_page.dart
+  - Implement responsive layout using MediaQuery/LayoutBuilder or Responsive helper.
+  - Left image column for desktop; stacked column for mobile.
+  - Use Flexible/Expanded/ConstrainedBox/AspectRatio to avoid overflow.
+- Tests: test/product_page_responsive_test.dart (three tests described above).
+- (Optional) Minor updates to lib/responsive.dart to expose isMobile/isDesktop helpers or adjust breakpoints; document changes.
+- Short README or test comment with run instructions.
+
+Acceptance / success criteria (testable)
+- Widget tests pass on CI for the three widths.
+- No RenderFlex overflow exceptions at 360/768/1366 in tests.
+- On mobile: stacked layout, no horizontal scroll, touch targets >= 44 dp.
+- On desktop: left image column visible to left of details, controls aligned, inputs expand but respect minWidth.
+- Keyboard navigation reaches controls in logical order and buttons are activatable by Enter/Space.
+
+Non-goals / constraints
+- Do not redesign Header or Footer components; they must remain present.
+- Avoid changing app routes or overall visual language.
+- Prefer minimal, well-documented code changes confined to product_page.dart and tests.
+- Do not introduce heavy third-party layout packages.
+
+Implementation notes & tips
+- Use LayoutBuilder for breakpoint-based branch (check constraints.maxWidth).
+- For desktop layout, consider a Row with two Flexible children: left (Flex 1), right (Flex 1.2) — avoid fixed pixel widths.
+- For mobile, ensure SingleChildScrollView wrapping prevents vertical clipping; avoid Expanded inside unbounded vertical contexts.
+- Use Keys on main sections (e.g., Key('productImage'), Key('productDetails')) to simplify tests.
+- Detect overflow in tests via tester.takeException() and widget tree assertions.
+
+How to run tests (PowerShell)
+- Single file:
+  flutter test test/product_page_responsive_test.dart
+- Full test suite:
+  flutter test
+
+Example assertions to include in tests
+- expect(find.byKey(const Key('productImage')), findsOneWidget)
+- expect(find.byKey(const Key('productDetails')), findsOneWidget)
+- expect(tester.takeException(), isNull)
+
+Acceptance sign-off
+- Provide PR/patch with modified lib/product_page.dart, test file, and a brief commit message describing the change and how to run the tests.
+
+Attached visual reference
+- Use the provided screenshot as the desktop layout guide: image on the left, details on the right, thumbnails under main image, primary actions grouped in details column.
