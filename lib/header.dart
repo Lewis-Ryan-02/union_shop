@@ -39,12 +39,15 @@ class Header extends StatelessWidget {
   void navigateToSale(BuildContext context) {
     Navigator.pushNamed(context, '/collections/sale');
   }
+
   void navigateToGraduation(BuildContext context) {
     Navigator.pushNamed(context, '/collections/graduation');
   }
+
   void navigateToCollections(BuildContext context) {
     Navigator.pushNamed(context, '/collections');
   }
+
   void placeholderCallbackForButtons() {
     // This is the event handler for buttons that don't work yet
   }
@@ -73,7 +76,10 @@ class Header extends StatelessWidget {
             constraints: const BoxConstraints(minHeight: 56),
             child: LayoutBuilder(
               builder: (ctx, constraints) {
-                if (isMobile(context)) {
+                // Use the layout constraints here (not the outer context) so the
+                // header chooses the mobile/desktop variant based on available
+                // width in its parent rather than a possibly different MediaQuery.
+                if (constraints.maxWidth < mobileMax) {
                   return Row(
                     children: [
                       // Logo at the left
@@ -108,19 +114,19 @@ class Header extends StatelessWidget {
                             const BoxConstraints(minWidth: 36, minHeight: 36),
                         onPressed: placeholderCallbackForButtons,
                       ),
-                          IconButton(
-                            icon: const Icon(
-                              Icons.person_outline,
-                              size: 18,
-                              color: Colors.grey,
-                            ),
-                            padding: const EdgeInsets.all(8),
-                            constraints: const BoxConstraints(
-                              minWidth: 32,
-                              minHeight: 32,
-                            ),
-                            onPressed: () => navigateToSignIn(context),
-                          ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.person_outline,
+                          size: 18,
+                          color: Colors.grey,
+                        ),
+                        padding: const EdgeInsets.all(8),
+                        constraints: const BoxConstraints(
+                          minWidth: 32,
+                          minHeight: 32,
+                        ),
+                        onPressed: () => navigateToSignIn(context),
+                      ),
                       IconButton(
                         tooltip: 'Cart',
                         icon: const Icon(Icons.shopping_bag_outlined,
@@ -283,7 +289,7 @@ class Header extends StatelessWidget {
                               minWidth: 32,
                               minHeight: 32,
                             ),
-                            onPressed: () =>navigateToSignIn(context),
+                            onPressed: () => navigateToSignIn(context),
                           ),
                           IconButton(
                             icon: const Icon(
