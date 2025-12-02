@@ -10,7 +10,12 @@ void main() {
         await tester.binding.setSurfaceSize(const Size(800, 600));
       });
 
-      await tester.pumpWidget(const MaterialApp(home: ProductPage()));
+      await tester.pumpWidget(MaterialApp(
+          home: ProductPage(
+        title: 'Test Product',
+        description: 'Test Description',
+        price: '£15.00',
+      )));
       await tester.pumpAndSettle();
 
       expect(find.byKey(const Key('productImage')), findsOneWidget);
@@ -32,7 +37,12 @@ void main() {
         await tester.binding.setSurfaceSize(const Size(800, 600));
       });
 
-      await tester.pumpWidget(const MaterialApp(home: ProductPage()));
+      await tester.pumpWidget(MaterialApp(
+          home: ProductPage(
+        title: 'Test Product',
+        description: 'Test Description',
+        price: '£15.00',
+      )));
       await tester.pumpAndSettle();
 
       expect(find.byKey(const Key('productImage')), findsOneWidget);
@@ -55,7 +65,12 @@ void main() {
         await tester.binding.setSurfaceSize(const Size(800, 600));
       });
 
-      await tester.pumpWidget(const MaterialApp(home: ProductPage()));
+      await tester.pumpWidget(MaterialApp(
+          home: ProductPage(
+        title: 'Test Product',
+        description: 'Test Description',
+        price: '£15.00',
+      )));
       await tester.pumpAndSettle();
 
       expect(find.byKey(const Key('productImage')), findsOneWidget);

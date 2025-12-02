@@ -5,7 +5,12 @@ import 'package:union_shop/product_page.dart';
 void main() {
   group('Product Page Tests', () {
     Widget createTestWidget() {
-      return const MaterialApp(home: ProductPage());
+      return MaterialApp(
+          home: ProductPage(
+              title: 'Placeholder Product Name',
+              description:
+                  'This is a placeholder description for the product. Students should replace this with real product information and implement proper data management.',
+              price: '£15.00', discountPrice: '£10.00'));
     }
 
     testWidgets('should display product page with basic elements', (
@@ -22,6 +27,7 @@ void main() {
       );
       expect(find.text('Placeholder Product Name'), findsOneWidget);
       expect(find.text('£15.00'), findsOneWidget);
+      expect(find.text('£10.00'), findsOneWidget);
       expect(find.text('Description'), findsOneWidget);
     });
 
@@ -56,9 +62,12 @@ void main() {
       await tester.pump();
 
       // Check that footer is present
-      expect(find.byKey(const Key('footer_section_left_title')), findsOneWidget);
-      expect(find.byKey(const Key('footer_section_middle_title')), findsOneWidget);
-      expect(find.byKey(const Key('footer_section_right_title')), findsOneWidget);
+      expect(
+          find.byKey(const Key('footer_section_left_title')), findsOneWidget);
+      expect(
+          find.byKey(const Key('footer_section_middle_title')), findsOneWidget);
+      expect(
+          find.byKey(const Key('footer_section_right_title')), findsOneWidget);
     });
   });
 }

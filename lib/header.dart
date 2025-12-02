@@ -79,7 +79,15 @@ class Header extends StatelessWidget {
                 // Use the layout constraints here (not the outer context) so the
                 // header chooses the mobile/desktop variant based on available
                 // width in its parent rather than a possibly different MediaQuery.
-                if (constraints.maxWidth < mobileMax) {
+                // If the LayoutBuilder provides an infinite maxWidth (common when
+                // the parent doesn't constrain width), fall back to the
+                // MediaQuery width so tests and real layouts behave the same.
+                final double width = constraints.maxWidth.isFinite
+                    ? constraints.maxWidth
+                    : MediaQuery.of(ctx).size.width;
+                final bool mobileVariant = width < mobileMax || isMobile(ctx);
+
+                if (mobileVariant) {
                   return Row(
                     children: [
                       // Logo at the left
@@ -93,6 +101,7 @@ class Header extends StatelessWidget {
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
                             return Container(
+                              key: const Key('header_error_key_mobile'),
                               color: Colors.grey[300],
                               width: 24,
                               height: 24,
@@ -146,6 +155,15 @@ class Header extends StatelessWidget {
                           constraints:
                               const BoxConstraints(minWidth: 36, minHeight: 36),
                           onPressed: () {
+                            final scaffoldState = Scaffold.maybeOf(ctx);
+                            try {
+                              if (scaffoldState != null &&
+                                  scaffoldState.widget.drawer != null) {
+                                scaffoldState.openDrawer();
+                                return;
+                              }
+                            } catch (_) {}
+
                             showModalBottomSheet<void>(
                               context: ctx,
                               isScrollControlled: true,
@@ -175,6 +193,7 @@ class Header extends StatelessWidget {
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) {
                           return Container(
+                            key: const Key('header_error_key_desktop'),
                             color: Colors.grey[300],
                             width: 18,
                             height: 18,

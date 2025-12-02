@@ -21,7 +21,7 @@ void main() {
 
     expect(find.text('Teddy Bear'), findsOneWidget);
     expect(find.text('£12.00'), findsOneWidget);
-    expect(find.text('£10.00'), findsOneWidget);
+    expect(find.text('£10.00'), findsExactly(2));
 
     expect(find.text('Notebook'), findsOneWidget);
     expect(find.text('£5.99'), findsOneWidget);
@@ -29,6 +29,6 @@ void main() {
 
     expect(find.text('T-Shirt'), findsOneWidget);
     expect(find.text('£18.00'), findsOneWidget);
-    expect(find.text('£10.00'), findsOneWidget);
+    expect(find.text('£10.00'), findsExactly(2));
   });
 }

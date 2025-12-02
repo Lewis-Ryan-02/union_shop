@@ -3,8 +3,7 @@ import 'package:union_shop/responsive.dart';
 import 'package:union_shop/footer.dart';
 import 'package:union_shop/header.dart';
 
-const String testUrl =
-    'assets/images/placeholder_image.png';
+const String testUrl = 'assets/images/placeholder_image.png';
 
 class IfWidget extends StatelessWidget {
   final Widget isTrue;
@@ -22,7 +21,10 @@ class IfWidget extends StatelessWidget {
 
 class ProductOverlay extends StatelessWidget {
   const ProductOverlay(
-      {super.key, required this.imageUrl, required this.title, this.path = '/product'});
+      {super.key,
+      required this.imageUrl,
+      required this.title,
+      this.path = '/product'});
 
   final String title;
   final String imageUrl;
@@ -34,48 +36,50 @@ class ProductOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector( onTap: () => navigateToPath(context), child: Stack(
-      children: [
-        // Background image
-        Positioned.fill(
-          child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: Image.asset(
-                  imageUrl,
-                ).image,
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.5),
-              ),
-            ),
-          ),
-        ),
-        // Content overlay
-        Positioned(
-          left: 24,
-          right: 24,
-          top: 60,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                  height: 1.2,
+    return GestureDetector(
+        onTap: () => navigateToPath(context),
+        child: Stack(
+          children: [
+            // Background image
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: Image.asset(
+                      imageUrl,
+                    ).image,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.5),
+                  ),
                 ),
               ),
-              const SizedBox(height: 32),
-            ],
-          ),
-        ),
-      ],
-    ));
+            ),
+            // Content overlay
+            Positioned(
+              left: 24,
+              right: 24,
+              top: 60,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                      height: 1.2,
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                ],
+              ),
+            ),
+          ],
+        ));
   }
 }
 
@@ -204,7 +208,8 @@ class ProductCard extends StatelessWidget {
 }
 
 class CollectionItemPage extends StatelessWidget {
-  const CollectionItemPage({super.key, required this.title, required this.children});
+  const CollectionItemPage(
+      {super.key, required this.title, required this.children});
 
   final Widget title;
   final List<Widget> children;
@@ -214,65 +219,80 @@ class CollectionItemPage extends StatelessWidget {
     return Scaffold(
         body: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         const Header(),
         title,
         const Divider(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        // Use Wrap so filter/sort controls flow to the next line on narrow
+        // viewports instead of causing a horizontal RenderFlex overflow.
+        Wrap(
+          alignment: WrapAlignment.center,
+          spacing: 12,
+          runSpacing: 8,
           children: [
             const Text('Filter by: '),
-            SizedBox(width: isMobile(context)?0:10),
-            DropdownButton<String>(
-              isDense: isMobile(context),
-              value: 'All Products',
-              items: const [
-                DropdownMenuItem(
-                    value: 'All Products', child: Text('All Products')),
-                DropdownMenuItem(
-                    value: 'Merchandise', child: Text('Merchandise')),
-              ],
-              onChanged: (String? newValue) {},
-              hint: const Text('Filter'),
+            // Constrain dropdown widths so they can't demand too much space
+            ConstrainedBox(
+              constraints:
+                  BoxConstraints(maxWidth: isMobile(context) ? 200 : 300),
+              child: DropdownButton<String>(
+                isDense: isMobile(context),
+                isExpanded: true,
+                value: 'All Products',
+                items: const [
+                  DropdownMenuItem(
+                      value: 'All Products', child: Text('All Products')),
+                  DropdownMenuItem(
+                      value: 'Merchandise', child: Text('Merchandise')),
+                ],
+                onChanged: (String? newValue) {},
+                hint: const Text('Filter'),
+              ),
             ),
             const Text('Sort by: '),
-            SizedBox(width: isMobile(context) ? 0 : 10),
-            DropdownButton<String>(
-              isDense: isMobile(context),
-              items: const [
-                DropdownMenuItem(value: 'Featured', child: Text('Featured')),
-                DropdownMenuItem(
-                    value: 'Best Selling', child: Text('Best Selling')),
-                DropdownMenuItem(
-                    value: 'Alphabetical A-Z', child: Text('Alphabetical A-Z')),
-                DropdownMenuItem(
-                    value: 'Alphabetical Z-A', child: Text('Alphabetical Z-A')),
-                DropdownMenuItem(
-                    value: 'Price: Low to High',
-                    child: Text('Price: Low to High')),
-                DropdownMenuItem(
-                    value: 'Price: High to Low',
-                    child: Text('Price: High to Low')),
-                DropdownMenuItem(
-                    value: 'Date old to new', child: Text('Date old to new')),
-                DropdownMenuItem(
-                    value: 'Date new to old', child: Text('Date new to old')),
-              ],
-              onChanged: (String? newValue) {},
-              hint: const Text('Sort'),
+            ConstrainedBox(
+              constraints:
+                  BoxConstraints(maxWidth: isMobile(context) ? 200 : 300),
+              child: DropdownButton<String>(
+                isDense: isMobile(context),
+                isExpanded: true,
+                items: const [
+                  DropdownMenuItem(value: 'Featured', child: Text('Featured')),
+                  DropdownMenuItem(
+                      value: 'Best Selling', child: Text('Best Selling')),
+                  DropdownMenuItem(
+                      value: 'Alphabetical A-Z',
+                      child: Text('Alphabetical A-Z')),
+                  DropdownMenuItem(
+                      value: 'Alphabetical Z-A',
+                      child: Text('Alphabetical Z-A')),
+                  DropdownMenuItem(
+                      value: 'Price: Low to High',
+                      child: Text('Price: Low to High')),
+                  DropdownMenuItem(
+                      value: 'Price: High to Low',
+                      child: Text('Price: High to Low')),
+                  DropdownMenuItem(
+                      value: 'Date old to new', child: Text('Date old to new')),
+                  DropdownMenuItem(
+                      value: 'Date new to old', child: Text('Date new to old')),
+                ],
+                onChanged: (String? newValue) {},
+                hint: const Text('Sort'),
+              ),
             ),
-            SizedBox(width: isMobile(context) ? 0 : 20),
-            IfWidget(isTrue: Text('${children.length} products'), condition: isDesktop(context)),
+            IfWidget(
+                isTrue: Text('${children.length} products'),
+                condition: isDesktop(context)),
           ],
         ),
         const Divider(),
-        IfWidget(isTrue: Text('${children.length} products'), condition: isMobile(context)),
-         ProductSection(
-            title: '',
-            desktopCount: 3,
-            mobileCount: 2,
-            children: children),
+        IfWidget(
+            isTrue: Text('${children.length} products'),
+            condition: isMobile(context)),
+        ProductSection(
+            title: '', desktopCount: 3, mobileCount: 2, children: children),
         const Footer(),
       ],
     )));

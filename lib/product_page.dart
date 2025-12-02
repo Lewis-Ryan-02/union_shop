@@ -1,18 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/footer.dart';
 import 'package:union_shop/header.dart';
-import 'package:union_shop/helper_widgets.dart';
 import 'package:union_shop/responsive.dart';
 
 class ProductPage extends StatelessWidget {
-  const ProductPage({super.key});
+  ProductPage(
+      {super.key,
+      this.testUrl = 'assets/images/placeholder_image.png',
+      required this.title,
+      required this.description,
+      required this.price,
+      this.discountPrice = ''});
+
+  final TextEditingController quantityController =
+      TextEditingController(text: '1');
+  final String testUrl;
+  final String title;
+  final String description;
+  final String price;
+  final String discountPrice;
 
   final List<DropdownMenuEntry<String>> colourItems = const [
     DropdownMenuEntry(value: 'red', label: 'Red'),
     DropdownMenuEntry(value: 'blue', label: 'Blue'),
     DropdownMenuEntry(value: 'green', label: 'Green'),
   ];
-
+  final List<DropdownMenuEntry<String>> sizeItems = const [
+    DropdownMenuEntry(value: 's', label: 'S'),
+    DropdownMenuEntry(value: 'm', label: 'M'),
+    DropdownMenuEntry(value: 'l', label: 'L'),
+    DropdownMenuEntry(value: 'xl', label: 'XL'),
+    DropdownMenuEntry(value: 'xxl', label: 'XXL'),
+  ];
   void navigateToHome(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
   }
@@ -23,6 +42,37 @@ class ProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Widget priceWidget = discountPrice.isNotEmpty
+        ? Row(
+            children: [
+              Text(
+                price,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                  decoration: TextDecoration.lineThrough,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                discountPrice,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF4d2963),
+                ),
+              ),
+            ],
+          )
+        : Text(
+            price,
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF4d2963),
+            ),
+          );
     final isMobileView = isMobile(context);
 
     Widget imageColumn = ConstrainedBox(
@@ -78,63 +128,50 @@ class ProductPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 8),
-            const Text(
-              'Placeholder Product Name',
-              style: TextStyle(
+            Text(
+              title,
+              style: const TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
             ),
             const SizedBox(height: 8),
-            const Text(
-              '£15.00',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF4d2963),
-              ),
-            ),
+            priceWidget,
             const SizedBox(height: 16),
             const Text('Colour'),
             // Make dropdowns expand but not overflow
             DropdownMenu(
               width: double.infinity,
               dropdownMenuEntries: colourItems,
-              initialSelection: 'red',
+              initialSelection: colourItems.first.value,
             ),
             const SizedBox(height: 12),
             // Size and Quantity placed in a single row so quantity appears
             // next to size on both mobile and desktop.
-            const Row(
+            Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Size expands to take remaining space
-                Expanded(
+                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Size'),
+                      const Text('Size'),
                       // Fixed control height so Quantity can match it
                       SizedBox(
                         height: 48,
                         child: DropdownMenu(
                           width: double.infinity,
-                          initialSelection: 's',
-                          dropdownMenuEntries: [
-                            DropdownMenuEntry(value: 's', label: 'S'),
-                            DropdownMenuEntry(value: 'm', label: 'M'),
-                            DropdownMenuEntry(value: 'l', label: 'L'),
-                            DropdownMenuEntry(value: 'xl', label: 'XL'),
-                            DropdownMenuEntry(value: 'xxl', label: 'XXL'),
-                          ],
+                          initialSelection: sizeItems.first.value,
+                          dropdownMenuEntries: sizeItems,
                         ),
                       ),
                     ],
                   ),
                 ),
 
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
 
                 // Quantity uses a flexible container with a max width so it can
                 // shrink on narrow screens and avoid overflow.
@@ -143,14 +180,15 @@ class ProductPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Quantity'),
-                      SizedBox(height: 8),
+                      const Text('Quantity'),
+                      const SizedBox(height: 8),
                       // Match the height of the Size control, but keep width compact
                       SizedBox(
                         width: 120,
                         height: 48,
                         child: TextField(
-                          decoration: InputDecoration(
+                          controller: quantityController,
+                          decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             isDense: true,
                             contentPadding: EdgeInsets.symmetric(
@@ -191,9 +229,9 @@ class ProductPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'This is a placeholder description for the product. Students should replace this with real product information and implement proper data management.',
-              style: TextStyle(fontSize: 16, color: Colors.grey, height: 1.5),
+            Text(
+              description,
+              style: const TextStyle(fontSize: 16, color: Colors.grey, height: 1.5),
             ),
             const SizedBox(height: 24),
           ],
