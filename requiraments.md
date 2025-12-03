@@ -354,3 +354,182 @@ Acceptance sign-off
 
 Attached visual reference
 - Use the provided screenshot as the desktop layout guide: image on the left, details on the right, thumbnails under main image, primary actions grouped in details column.
+
+## Cart System — Detailed Requirements
+
+Version: 1.0
+Target: Flutter (mobile & web)
+
+Purpose
+---
+Add a reusable, well-tested shopping cart system that accepts products and product attributes, exposes a clean API for cart operations, persists state across app restarts, and provides UI components for interaction (cart icon/badge, cart page, optional mini-cart). The implementation must integrate with the existing project without modifying unrelated pages.
+
+Scope
+---
+- Implement core cart model and business logic (add/update/remove/clear, totals, serialization).
+- Provide a reactive state layer the UI can subscribe to (Provider, Riverpod, or existing project pattern).
+- Persist cart state locally and restore on startup.
+- Provide UI components: header cart icon with badge, cart page, optional mini-cart modal.
+- Deliver unit and widget tests for core behaviors, and documentation with integration instructions.
+
+Inputs / Cart Item Structure
+---
+Each cart item must include the following fields (or equivalents):
+- `productId` (string): canonical product identifier
+- `sku` (string | optional)
+- `name` (string)
+- `unitPrice` (decimal / num)
+- `quantity` (int)
+- `attributes` (map/object): order-insensitive representation of customizations (e.g., size, color, lines)
+- `imageUrl` (string | optional)
+- `metadata` (map | optional): vendor/tax class/notes
+
+Key principles
+---
+- Attribute-aware equality: items with same `productId` but different attributes are distinct cart items.
+- Persist serialized cart as JSON and restore on app start.
+- Keep cart logic separate from UI for testability and maintainability.
+- Avoid blocking the UI thread for persistence; persist asynchronously and debounce frequent writes.
+
+User stories (detailed)
+---
+1. Add item with attributes
+  - As a shopper, I add a product with attributes (size, color, personalized lines) and quantity.
+  - Acceptance: cart contains an item with matching `productId` and attribute map. Line total = `unitPrice * quantity`.
+
+2. Update quantity
+  - As a shopper, I change the quantity for a cart item.
+  - Acceptance: quantity is clamped to a configured minimum (default 1). Totals update immediately.
+
+3. Remove item
+  - As a shopper, I remove an item.
+  - Acceptance: the item is deleted and totals update.
+
+4. Header badge
+  - As a shopper, I see a cart icon with a badge showing total quantity.
+  - Acceptance: badge updates live as items change.
+
+5. Cart page
+  - As a shopper, I view the cart page listing items, attributes, thumbnails, per-line totals, subtotal, tax, and total.
+  - Acceptance: each item shows attributes, unit price, quantity control, and remove control.
+
+6. Persistence
+  - As a shopper, my cart persists across app restarts.
+  - Acceptance: serialized cart is restored on startup and reflected in the UI.
+
+7. Serialization
+  - As an engineer, I can export and import the cart via JSON without data loss.
+
+8. Tests
+  - Unit and widget tests validate add/update/remove/serialize/restore behaviors.
+
+Functional requirements
+---
+- Public API methods (names are examples; pick consistent naming following app conventions):
+  - `addItem(productId, name, unitPrice, attributes, quantity = 1, imageUrl?, metadata?)`
+  - `updateItemQuantity(itemKey, newQuantity)`
+  - `updateItemAttributes(itemKey, attributes)`
+  - `removeItem(itemKey)`
+  - `clearCart()`
+  - `getItems()` -> List<CartItem>
+  - `getItemCount()` -> int (sum of quantities)
+  - `getSubtotal()` -> num
+  - `getTax()` -> num (support pluggable tax strategy)
+  - `getTotal()` -> num
+  - `serialize()` -> JSON
+  - `deserialize(json)` -> restores cart
+
+- Cart item identity: include or compute a stable key that depends on `productId` and a canonicalized attributes map (attribute order-insensitive).
+- Merge behavior: adding an item with identical productId and attributes increments quantity; otherwise, a new cart entry is created.
+- Quantity rules: integer >= 1 by default; configurable behavior to treat 0 as removal is allowed via option.
+- Currency and rounding: document rounding strategy (e.g., round half-even to 2 decimal places) and use integer-pennies if preferred for exactness.
+- Concurrency: operations should be atomic — ensure state updates and persistence are synchronized (use mutex/lock or single-threaded sequence) to avoid race conditions.
+
+Persistence
+---
+- Store serialized JSON locally (SharedPreferences, Hive, or similar). Preference: use an abstraction so the storage backend is swappable and testable.
+- Persist asynchronously; debounce writes (e.g., 300ms) to avoid excessive IO from spinners.
+- Provide `initialize()` to load persisted state at app start; expose a `restoreFromJson(json)` API for tests.
+
+UI requirements
+---
+- Cart icon + badge (header): shows sum of quantities. Tapping opens cart page or mini-cart modal.
+- Cart page (full):
+  - List of items showing thumbnail (if present), name, attributes (rendered as a list or inline), unit price, editable quantity control (increment/decrement), line total, and remove button.
+  - Totals block showing subtotal, tax (configurable), and grand total, and a primary CTA 'Proceed to Checkout' (stubbed).
+  - Provide a 'clear cart' affordance.
+- Mini-cart (optional): overlay showing up to 3 items and CTA to view the full cart.
+
+Testing requirements
+---
+- Unit tests (core logic):
+  - addItem merges quantities only when `productId` and attributes match.
+  - updateItemQuantity enforces bounds and recomputes totals.
+  - removeItem removes the right item and updates totals.
+  - serialize/deserialize round-trips without data loss.
+  - totals calculation for multiple items and tax computation.
+
+- Widget tests (UI bindings):
+  - Cart badge updates when items are added/removed/updated.
+  - Cart page renders list with attributes, and quantity controls update totals.
+  - Persistence: simulate restart by serializing state and restoring it in a widget test, verifying UI shows restored items.
+
+- Edge-case tests:
+  - Large quantities and prices to verify totals and rounding.
+  - Deep attribute maps and order-insensitive equality.
+  - Invalid input (negative quantity) should be rejected or corrected.
+
+Non-functional requirements
+---
+- Performance: UI updates must be immediate; persistence must be asynchronous.
+- Maintainability: separate business logic from UI; provide clear, documented public API.
+- Accessibility: quantity controls and remove buttons must have semantic labels and meet touch target sizes.
+- Internationalization: use locale-aware currency formatting when rendering totals in the UI.
+
+Deliverables
+---
+- Cart data models: `cart/models/cart_item.dart` and supporting models.
+- Cart service/provider: `cart/cart_service.dart` (or `provider.dart`) implementing the reactive API.
+- Persistence abstraction: `cart/storage/cart_persistence.dart`.
+- UI components: `ui/cart/cart_icon.dart`, `ui/cart/cart_page.dart`, optional `ui/cart/mini_cart.dart`.
+- Tests: unit tests for logic and widget tests for badge and cart page.
+- Documentation: `lib/cart/README.md` describing integration steps, public API, and JSON schema.
+
+Acceptance criteria
+---
+- Unit tests for core cart logic pass and achieve high coverage for cart operations.
+- Widget tests for cart badge and cart page pass.
+- Cart state persists and restores reliably across app restarts.
+- API is documented and exposes the methods listed above.
+- No unrelated pages or features are changed.
+
+Implementation notes and suggestions
+---
+- Use dependency injection for the persistence layer so tests can inject in-memory backends.
+- Keep models immutable where practical or ensure copies are made before mutation.
+- Debounce persistence writes to avoid heavy IO on rapid UI interactions.
+- Represent attributes in a canonical form (sorted keys, normalized values) when computing equality/keys so attribute order does not affect identity.
+- Provide extension points for tax, shipping, coupons, and stock checks; keep them decoupled from the core cart logic.
+
+Migration & integration
+---
+- Initialization: call cartService.initialize() from the app start (e.g., main or a top-level provider initializer) to restore persisted state before widgets that read the cart appear.
+- Header integration: add the `cart_icon` in the existing header widget — ensure it subscribes to cart provider and shows badge count.
+- Routes: add a route for the cart page (e.g., `/cart`) and update Header to open that route or present a modal.
+
+Acceptance checklist for PR
+---
+- [ ] Cart model and tests implemented.
+- [ ] Reactive cart provider/service implemented and documented.
+- [ ] Persistence layer implemented and tested (serialize/deserialize).
+- [ ] Cart icon and cart page UI implemented and wired to the provider.
+- [ ] Unit and widget tests added and green.
+- [ ] README with integration and JSON schema added.
+
+Questions / clarifications (if needed before implementation)
+---
+- Which state-management library should be preferred in this repo (Provider, Riverpod, Bloc)? If none, I will propose one with rationale.
+- Preferred persistence backend: SharedPreferences, Hive, or sqflite? For simple key/value JSON, SharedPreferences or Hive are recommended.
+- Should the cart freeze unit prices at add-to-cart time, or should it refresh prices at checkout? (Default: freeze at add-to-cart and reconcile at checkout).
+
+End of Cart System Requirements
