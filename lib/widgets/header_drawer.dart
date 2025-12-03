@@ -6,19 +6,27 @@ class HeaderDrawer extends StatelessWidget {
   const HeaderDrawer({super.key});
 
   static const List<String> _shopText = [
-    'Clothing',
-    'Merchandise',
-    'Halloween 🎃',
-    'Signatures & Essential range',
+    'Signatures range',
     'Portsmouth City Collection',
-    'Pride Collection 🏳️‍🌈',
-    'Graduation 🎓'
+    'Graduation'
+  ];
+
+  static const List<String> _paths = [
+    '/collections/signature-range',
+    '/collections/portsmouth-city',
+    '/collections/graduation'
   ];
 
   static const List<String> _printText = [
     'The print shack',
     'About',
     'Personalisation'
+  ];
+
+  static const List<String> _printPaths = [
+    '/print-shack',
+    '/print-shack/about',
+    '/print-shack',
   ];
 
   void _navigateTo(BuildContext context, String route) {
@@ -66,7 +74,8 @@ class HeaderDrawer extends StatelessWidget {
                         title: Text(s),
                         onTap: () {
                           Navigator.pop(context);
-                          Navigator.pushNamed(context, '/collections');
+                          Navigator.pushNamed(
+                              context, _paths[_shopText.indexOf(s)]);
                         },
                       ))
                   .toList(),
@@ -79,7 +88,8 @@ class HeaderDrawer extends StatelessWidget {
                         title: Text(s),
                         onTap: () {
                           Navigator.pop(context);
-                          Navigator.pushNamed(context, '/product');
+                          Navigator.pushNamed(
+                              context, _printPaths[_printText.indexOf(s)]);
                         },
                       ))
                   .toList(),

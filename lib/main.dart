@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:union_shop/views/product_page.dart';
 import 'package:union_shop/views/about_page.dart';
 import 'package:union_shop/views/sign_in_page.dart';
 import 'package:union_shop/views/collections.dart';
@@ -9,6 +8,8 @@ import 'package:union_shop/views/home.dart';
 import 'package:union_shop/products.dart';
 import 'package:union_shop/views/city_page.dart';
 import 'package:union_shop/views/signature_page.dart';
+import 'package:union_shop/views/print_shack.dart';
+import 'package:union_shop/views/print_shack_about.dart';
 
 void main() {
   runApp(const UnionShopApp());
@@ -31,11 +32,6 @@ class UnionShopApp extends StatelessWidget {
       // When navigating to '/product', build and return the ProductPage
       // In your browser, try this link: http://localhost:49856/#/product
       routes: {
-        '/product': (context) => ProductPage(
-            title: 'Sample Product',
-            description: 'This is a sample product description.',
-            price: '£15.00',
-            discountPrice: '£10.00'),
         '/about': (context) => const AboutPage(),
         '/signin': (context) => SignInScreen(),
         '/collections': (context) => const CollectionsPage(),
@@ -43,16 +39,27 @@ class UnionShopApp extends StatelessWidget {
         '/collections/sale': (context) => const SalePage(),
         '/collections/portsmouth-city': (context) => const PortsmouthCityCollectionPage(),
         '/collections/signature-range': (context) => const SignaturePage(),
+        '/print-shack': (context) => const PrintShackPage(),
+        '/print-shack/about': (context) => const PrintShackAboutPage(),
 
         TShirtProductPage.path: (context) => const TShirtProductPage(),
         HoodieProductPage.path: (context) => const HoodieProductPage(),
         TeddyBearProductPage.path: (context) => const TeddyBearProductPage(),
-        NotebookProductPage.path: (context) => const NotebookProductPage(),
+        ShoesProductPage.path: (context) => const ShoesProductPage(),
 
         EssentialTShirtProductPage.path: (context) => const EssentialTShirtProductPage(),
         EssentialHoodieProductPage.path: (context) => const EssentialHoodieProductPage(),
         BeenieProductPage.path: (context) => const BeenieProductPage(),
         JeansProductPage.path: (context) => const JeansProductPage(),
+
+        PostCardProductPage.path: (context) => const PostCardProductPage(),
+        BookmarkProductPage.path: (context) => const BookmarkProductPage(),
+        MagnetProductPage.path: (context) => const MagnetProductPage(),
+        NotebookProductPage.path: (context) => const NotebookProductPage(),        
+
+
+        SignatureTShirtProductPage.path: (context) => const SignatureTShirtProductPage(),
+        SignatureHoodieProductPage.path: (context) => const SignatureHoodieProductPage(),
       },
       onUnknownRoute: (settings) => MaterialPageRoute(
         builder: (context) => Scaffold(

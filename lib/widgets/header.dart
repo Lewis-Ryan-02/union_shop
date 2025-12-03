@@ -9,15 +9,23 @@ class Header extends StatelessWidget {
     'About',
     'Personalisation'
   ];
+
+  static const List<String> _printPaths = [
+    '/print-shack',
+    '/print-shack/about',
+    '/print-shack/personalisation'
+  ];
+
   static const List<String> _shopText = [
-    'shop',
-    'Clothing',
-    'Merchandise',
-    'Halloween 🎃',
-    'Signatures & Essential range',
+    'Signatures range',
     'Portsmouth City Collection',
-    'Pride Collection 🏳️‍🌈',
-    'Graduation 🎓'
+    'Graduation'
+  ];
+
+  static const List<String> _shopPaths = [
+    '/collections/signature-range',
+    '/collections/portsmouth-city',
+    '/collections/graduation'
   ];
 
   void navigateToHome(BuildContext context) {
@@ -67,7 +75,7 @@ class Header extends StatelessWidget {
             child: const Text(
               'BIG SALE! OUR ESSENTIAL RANGE HAS DROPPED IN PRICE! OVER 20% OFF! COME GRAB YOURS WHILE STOCK LASTS!',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white, fontSize: 16),
+              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
           // Main header
@@ -227,7 +235,8 @@ class Header extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8),
                               onChanged: (String? newValue) {
-                                navigateToProduct(context);
+                                Navigator.pushNamed(
+                                    context, _shopPaths[_shopText.indexOf(newValue!)]);
                               },
                               icon: const Icon(Icons.arrow_downward),
                               items: _shopText.map<DropdownMenuItem<String>>(
@@ -248,7 +257,8 @@ class Header extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8),
                               onChanged: (String? newValue) {
-                                navigateToProduct(context);
+                                Navigator.pushNamed(
+                                    context, _printPaths[_printText.indexOf(newValue!)]);
                               },
                               icon: const Icon(Icons.arrow_downward),
                               items: _printText.map<DropdownMenuItem<String>>(
