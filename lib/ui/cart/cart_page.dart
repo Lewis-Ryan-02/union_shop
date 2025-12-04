@@ -64,10 +64,10 @@ class CartPage extends StatelessWidget {
                                               final url = item.imageUrl!;
                                               // Images are always stored as asset paths in this app.
                                               // Use the provided `url` if present, otherwise
-                                              // fall back to the placeholder asset (`testUrl`).
+                                              // fall back to the placeholder asset (`errorimg`).
                                               final assetPath = url.isNotEmpty
                                                   ? url
-                                                  : testUrl;
+                                                  : 'assets/images/errorimg.png';
                                               return Image.asset(
                                                 assetPath,
                                                 width: 56,

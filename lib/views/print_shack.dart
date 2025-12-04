@@ -105,7 +105,7 @@ class _PrintShackPageState extends State<PrintShackPage> {
             child: AspectRatio(
               aspectRatio: 4 / 3,
               child: Image.asset(
-                testUrl,
+                'assets/images/print.png',
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return Container(

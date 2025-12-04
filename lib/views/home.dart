@@ -45,7 +45,7 @@ class HomeScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: Image.asset(
-                            testUrl
+                            'assets/images/hero.png'
                           ).image,
                           fit: BoxFit.cover,
                         ),
@@ -124,26 +124,22 @@ class HomeScreen extends StatelessWidget {
               mobileCount: 1,
               desktopCount: 2,
               children: [
-                ProductCard(
-                  title: EssentialHoodieProductPage.title,
-                  price: EssentialHoodieProductPage.price,
-                  discountPrice: EssentialHoodieProductPage.discountPrice,
-                  imageUrl:
-                      EssentialHoodieProductPage.imageUrl,
-                      path: EssentialHoodieProductPage.path,
-                ),
-                ProductCard(
-                  title: EssentialTShirtProductPage.title,
-                  price: EssentialTShirtProductPage.price,
-                  discountPrice: EssentialTShirtProductPage.discountPrice,
-                  imageUrl:
-                      EssentialTShirtProductPage.imageUrl,
-                      path: EssentialTShirtProductPage.path,
-                ),
-              ],
-            ),
-            const SizedBox(height: 48),
-            const ProductSection(title: 'Signature range', children: [
+                  ProductOverlay(
+                    title: 'Signature Range',
+                    path: '/collections/signature-range',
+                    imageUrl: 'assets/images/sigrange.png'),
+                  ProductOverlay(
+                    title: 'Portsmouth City Collection',
+                    path: '/collections/portsmouth-city',
+                    imageUrl: 'assets/images/cityrange.png'),
+                  ProductOverlay(
+                    title: 'Graduation',
+                    path: '/collections/graduation',
+                    imageUrl: 'assets/images/gradrange.png'),
+                  ProductOverlay(
+                    title: 'Sale',
+                    path: '/collections/sale',
+                    imageUrl: 'assets/images/sale.png'),
               ProductCard(
                 title: SignatureHoodieProductPage.title,
                 price: SignatureHoodieProductPage.price,
@@ -225,26 +221,26 @@ class HomeScreen extends StatelessWidget {
                 desktopCount: 4,
                 mobileCount: 2,
                 children: [
-                  ProductOverlay(
+                    ProductOverlay(
                       title: 'Signature Range',
                       path: '/collections/signature-range',
                       imageUrl:
-                          testUrl),
+                        'assets/images/sigrange.png'),
                   ProductOverlay(
                       title: 'Portsmouth City Collection',
                       path: '/collections/portsmouth-city',
                       imageUrl:
-                          testUrl),
-                  ProductOverlay(
+                          'assets/images/cityrange.png'),
+                    ProductOverlay(
                       title: 'Graduation',
                       path: '/collections/graduation',
                       imageUrl:
-                          testUrl),
+                        'assets/images/gradrange.png'),
                   ProductOverlay(
                       title: 'Sale',
                       path: '/collections/sale',
                       imageUrl:
-                          testUrl),
+                          'assets/images/sale.png'),
                 ]),
 
             const SizedBox(height: 48),
@@ -255,8 +251,8 @@ class HomeScreen extends StatelessWidget {
               children: [
                 const Image(
                   image: AssetImage(
-                      testUrl),
-                ),
+                    'assets/images/print.png',
+                ),),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(

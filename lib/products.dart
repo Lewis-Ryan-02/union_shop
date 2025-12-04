@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:union_shop/widgets/helper_widgets.dart';
 import 'package:union_shop/views/product_page.dart';
 
 class TShirtProductPage extends StatelessWidget {
@@ -11,7 +10,7 @@ class TShirtProductPage extends StatelessWidget {
   static const String discountPrice = '';
   static const String description =
       'A comfortable and stylish T-Shirt made from 100% cotton. Perfect for everyday wear.';
-  static const String imageUrl = testUrl;
+  static const String imageUrl = 'assets/images/tshirt.png';
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +33,7 @@ class HoodieProductPage extends StatelessWidget {
   static const String discountPrice = '';
   static const String description =
       'A warm and cozy hoodie made from high-quality materials. Ideal for chilly days.';
-  static const String imageUrl = testUrl;
+  static const String imageUrl = 'assets/images/hoodie.png';
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +56,7 @@ class TeddyBearProductPage extends StatelessWidget {
   static const String discountPrice = '';
   static const String description =
       'A soft and cuddly teddy bear, perfect for gifts or as a comforting companion.';
-  static const String imageUrl = testUrl;
+  static const String imageUrl = 'assets/images/teddy.png';
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +79,7 @@ class ShoesProductPage extends StatelessWidget {
   static const String discountPrice = '';
   static const String description =
       'A pair of comfortable and stylish shoes, perfect for everyday wear.';
-  static const String imageUrl = testUrl;
+  static const String imageUrl = 'assets/images/shoe.png';
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +102,7 @@ class EssentialTShirtProductPage extends StatelessWidget {
   static const String discountPrice = '£10.00';
   static const String description =
       'A comfortable and stylish Essential T-Shirt made from 100% cotton. Perfect for everyday wear.';
-  static const String imageUrl = testUrl;
+  static const String imageUrl = 'assets/images/essentailtshirt.png';
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +125,7 @@ class EssentialHoodieProductPage extends StatelessWidget {
   static const String discountPrice = '£15.00';
   static const String description =
       'A warm and cozy Essential Hoodie made from high-quality materials. Ideal for chilly days.';
-  static const String imageUrl = testUrl;
+  static const String imageUrl = 'assets/images/essentailhoodie.png';
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +148,7 @@ class BeenieProductPage extends StatelessWidget {
   static const String discountPrice = '£10.00';
   static const String description =
       'A stylish beanie to keep you warm during the colder months.';
-  static const String imageUrl = testUrl;
+  static const String imageUrl = 'assets/images/beenie.png';
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +171,7 @@ class JeansProductPage extends StatelessWidget {
   static const String discountPrice = '£3.99';
   static const String description =
       'Comfortable and durable jeans suitable for everyday wear.';
-  static const String imageUrl = testUrl;
+  static const String imageUrl = 'assets/images/jeans.png';
 
   @override
   Widget build(BuildContext context) {
@@ -195,7 +194,7 @@ class PostCardProductPage extends StatelessWidget {
   static const String discountPrice = '';
   static const String description =
       'A beautiful postcard to send to your loved ones.';
-  static const String imageUrl = testUrl;
+  static const String imageUrl = 'assets/images/postcard.png';
 
   @override
   Widget build(BuildContext context) {
@@ -218,7 +217,7 @@ class MagnetProductPage extends StatelessWidget {
   static const String discountPrice = '';
   static const String description =
       'A stylish magnet to decorate your fridge or workspace.';
-  static const String imageUrl = testUrl;
+  static const String imageUrl = 'assets/images/magnet.png';
 
   @override
   Widget build(BuildContext context) {
@@ -241,7 +240,7 @@ class BookmarkProductPage extends StatelessWidget {
   static const String discountPrice = '';
   static const String description =
       'A beautiful bookmark to keep your place in your favorite books.';
-  static const String imageUrl = testUrl;
+  static const String imageUrl = 'assets/images/bookmark.png';
 
   @override
   Widget build(BuildContext context) {
@@ -264,7 +263,7 @@ class NotebookProductPage extends StatelessWidget {
   static const String discountPrice = '';
   static const String description =
       'A high-quality notebook to jot down your thoughts and ideas.';
-  static const String imageUrl = testUrl;
+  static const String imageUrl = 'assets/images/notebook.png';
 
   @override
   Widget build(BuildContext context) {
@@ -287,7 +286,7 @@ class SignatureHoodieProductPage extends StatelessWidget {
   static const String discountPrice = '£25.00';
   static const String description =
       'A premium quality hoodie from our Signature Range, designed for comfort and style.';
-  static const String imageUrl = testUrl;
+  static const String imageUrl = 'assets/images/signaturehoodie.png';
 
   @override
   Widget build(BuildContext context) {
@@ -309,7 +308,7 @@ class SignatureTShirtProductPage extends StatelessWidget {
   static const String discountPrice = '£10.00';
   static const String description =
       'A premium quality T-Shirt from our Signature Range, designed for comfort and style.';
-  static const String imageUrl = testUrl;
+  static const String imageUrl = 'assets/images/signaturetshirt.png';
 
   @override
   Widget build(BuildContext context) {
