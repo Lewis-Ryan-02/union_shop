@@ -369,7 +369,7 @@ Scope
 - Implement core cart model and business logic (add/update/remove/clear, totals, serialization).
 - Provide a reactive state layer the UI can subscribe to (Provider, Riverpod, or existing project pattern).
 - Persist cart state locally and restore on startup.
-- Provide UI components: header cart icon with badge, cart page, optional mini-cart modal.
+- Provide UI components: cart page, optional mini-cart modal.
 - Deliver unit and widget tests for core behaviors, and documentation with integration instructions.
 
 Inputs / Cart Item Structure
@@ -404,10 +404,6 @@ User stories (detailed)
 3. Remove item
   - As a shopper, I remove an item.
   - Acceptance: the item is deleted and totals update.
-
-4. Header badge
-  - As a shopper, I see a cart icon with a badge showing total quantity.
-  - Acceptance: badge updates live as items change.
 
 5. Cart page
   - As a shopper, I view the cart page listing items, attributes, thumbnails, per-line totals, subtotal, tax, and total.
@@ -453,7 +449,6 @@ Persistence
 
 UI requirements
 ---
-- Cart icon + badge (header): shows sum of quantities. Tapping opens cart page or mini-cart modal.
 - Cart page (full):
   - List of items showing thumbnail (if present), name, attributes (rendered as a list or inline), unit price, editable quantity control (increment/decrement), line total, and remove button.
   - Totals block showing subtotal, tax (configurable), and grand total, and a primary CTA 'Proceed to Checkout' (stubbed).
@@ -522,7 +517,7 @@ Acceptance checklist for PR
 - [ ] Cart model and tests implemented.
 - [ ] Reactive cart provider/service implemented and documented.
 - [ ] Persistence layer implemented and tested (serialize/deserialize).
-- [ ] Cart icon and cart page UI implemented and wired to the provider.
+- [ ] cart page UI implemented and wired to the provider.
 - [ ] Unit and widget tests added and green.
 - [ ] README with integration and JSON schema added.
 
