@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/widgets/responsive.dart';
-import 'package:union_shop/widgets/helper_widgets.dart';
 import 'package:union_shop/widgets/header.dart';
 import 'package:provider/provider.dart';
 import 'package:union_shop/cart/cart_service.dart';

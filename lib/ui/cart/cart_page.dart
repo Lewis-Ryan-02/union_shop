@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../cart/cart_service.dart';
-import 'package:union_shop/widgets/helper_widgets.dart';
 import 'package:union_shop/widgets/header.dart';
 import 'package:union_shop/widgets/footer.dart';
 import 'package:union_shop/widgets/responsive.dart';
