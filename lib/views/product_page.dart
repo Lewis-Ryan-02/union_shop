@@ -65,6 +65,32 @@ class _ProductPageState extends State<ProductPage> {
     // This is the event handler for buttons that don't work yet
   }
 
+  void _handleAddToCart(BuildContext context) {
+    // Parse quantity
+    final q = int.tryParse(quantityController.text) ?? 1;
+    // Price format is guaranteed to be ^£X+\.XX$ (e.g. "£12.34").
+    // Remove the leading '£' and parse directly.
+    String rawPrice =
+        widget.discountPrice.isNotEmpty ? widget.discountPrice : widget.price;
+    final unitPrice = double.tryParse(rawPrice.replaceFirst('£', '')) ?? 0.0;
+
+    final cart = Provider.of<CartService>(context, listen: false);
+    cart.addItem(
+      productId: widget.title,
+      name: widget.title,
+      unitPrice: unitPrice,
+      quantity: q,
+      attributes: {
+        'color': selectedColour,
+        'size': selectedSize,
+      },
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Added $q × ${widget.title} to cart')),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final Widget priceWidget = widget.discountPrice.isNotEmpty
@@ -239,35 +265,7 @@ class _ProductPageState extends State<ProductPage> {
             SizedBox(
               width: isMobileView ? double.infinity : 220,
               child: ElevatedButton(
-                onPressed: () {
-                  // Parse quantity
-                  final q = int.tryParse(quantityController.text) ?? 1;
-                  // Parse price (strip non-numeric characters)
-                  String rawPrice = widget.discountPrice.isNotEmpty
-                      ? widget.discountPrice
-                      : widget.price;
-                  final numeric = rawPrice
-                      .replaceAll(RegExp(r'[^0-9\.,]'), '')
-                      .replaceAll(',', '.');
-                  final unitPrice = double.tryParse(numeric) ?? 0.0;
-
-                  final cart = Provider.of<CartService>(context, listen: false);
-                  cart.addItem(
-                    productId: widget.title,
-                    name: widget.title,
-                    unitPrice: unitPrice,
-                    quantity: q,
-                    attributes: {
-                      'color': selectedColour,
-                      'size': selectedSize,
-                    },
-                  );
-
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                        content: Text('Added $q × ${widget.title} to cart')),
-                  );
-                },
+                onPressed: () => _handleAddToCart(context),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF4d2963),
                   foregroundColor: Colors.white,

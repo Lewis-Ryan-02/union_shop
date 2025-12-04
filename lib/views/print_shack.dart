@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:union_shop/widgets/responsive.dart';
 import 'package:union_shop/widgets/helper_widgets.dart';
 import 'package:union_shop/widgets/header.dart';
+import 'package:provider/provider.dart';
+import 'package:union_shop/cart/cart_service.dart';
 import 'package:union_shop/widgets/footer.dart';
 
 class PrintShackPage extends StatefulWidget {
@@ -63,6 +65,29 @@ class _PrintShackPageState extends State<PrintShackPage> {
 
   void placeholderCallbackForButtons() {
     // Placeholder function for button callbacks
+  }
+
+  void addToCart(BuildContext context) {
+    final cart = Provider.of<CartService>(context, listen: false);
+    int qty = int.tryParse(quantityController.text) ?? 1;
+    if (qty < 1) qty = 1;
+    final priceStr =
+        prices[numberOfLines - 1].replaceAll('£', '').replaceAll(',', '');
+    final unitPrice = double.tryParse(priceStr) ?? 0.0;
+
+    cart.addItem(
+      productId: 'print_shack_custom',
+      name: 'Custom Print Shack Product',
+      unitPrice: unitPrice,
+      quantity: qty,
+      attributes: {'lines': numberOfLines.toString()},
+      imageUrl: null,
+      metadata: {'source': 'print_shack'},
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Added $qty × Custom Print Shack product to cart'),
+    ));
   }
 
   @override
@@ -180,7 +205,7 @@ class _PrintShackPageState extends State<PrintShackPage> {
             SizedBox(
               width: isMobileView ? double.infinity : 220,
               child: ElevatedButton(
-                onPressed: placeholderCallbackForButtons,
+                onPressed: () => addToCart(context),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF4d2963),
                   foregroundColor: Colors.white,
