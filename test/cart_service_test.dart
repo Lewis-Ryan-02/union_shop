@@ -68,4 +68,61 @@ void main() {
     service.updateItemQuantity(key, 0);
     expect(service.getItems().first.quantity, 1);
   });
+
+  test('removeItem and clearCart behave correctly', () async {
+    final persistence = InMemoryPersistence();
+    final service = CartService.forTest(persistence);
+    service.addItem(
+        productId: 'r1', name: 'RemoveMe', unitPrice: 2.0, quantity: 1);
+    service.addItem(
+        productId: 'r2', name: 'KeepMe', unitPrice: 3.0, quantity: 1);
+    expect(service.getItems().length, 2);
+
+    final key =
+        service.getItems().firstWhere((i) => i.productId == 'r1').stableKey();
+    service.removeItem(key);
+    expect(service.getItems().length, 1);
+
+    service.clearCart();
+    expect(service.getItems().isEmpty, isTrue);
+  });
+
+  test('updateItemAttributes merges items with matching attributes', () async {
+    final persistence = InMemoryPersistence();
+    final service = CartService.forTest(persistence);
+
+    // Add two items with same productId but different attributes
+    service.addItem(
+        productId: 'm1',
+        name: 'MergeMe',
+        unitPrice: 5.0,
+        quantity: 1,
+        attributes: {'color': 'red'});
+    service.addItem(
+        productId: 'm1',
+        name: 'MergeMe',
+        unitPrice: 5.0,
+        quantity: 2,
+        attributes: {'color': 'blue'});
+
+    expect(service.getItems().length, 2);
+
+    // Change first item's attributes to match the second; they should merge
+    final firstKey = service.getItems().first.stableKey();
+    service.updateItemAttributes(firstKey, {'color': 'blue'});
+
+    expect(service.getItems().length, 1);
+    expect(service.getItemCount(), 3);
+  });
+
+  test('subtotal, tax and total calculations are accurate', () async {
+    final persistence = InMemoryPersistence();
+    final service = CartService.forTest(persistence);
+    service.addItem(productId: 'c1', name: 'C1', unitPrice: 10.0, quantity: 1);
+    service.addItem(productId: 'c2', name: 'C2', unitPrice: 2.5, quantity: 2);
+
+    expect(service.getSubtotal(), closeTo(15.0, 0.001));
+    expect(service.getTax(0.1), closeTo(1.5, 0.001));
+    expect(service.getTotal(0.1), closeTo(16.5, 0.001));
+  });
 }

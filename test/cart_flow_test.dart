@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:union_shop/main.dart';
+import 'package:union_shop/products.dart';
 import 'package:union_shop/cart/cart_service.dart';
 import 'package:union_shop/cart/storage/cart_persistence.dart';
 
@@ -40,7 +41,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // 1) Add Signature T-Shirt from home (collection)
-    final tshirtFinder = find.text('Signature T-Shirt');
+    final tshirtFinder = find.text(SignatureTShirtProductPage.title);
     expect(tshirtFinder, findsOneWidget);
     await tester.ensureVisible(tshirtFinder);
     await tester.pumpAndSettle();
@@ -85,8 +86,23 @@ void main() {
     await tester.pumpAndSettle();
 
     // Both items should appear in the cart UI
-    expect(find.text('Signature T-Shirt'), findsOneWidget);
+    expect(find.text(SignatureTShirtProductPage.title), findsOneWidget);
     expect(find.text('Custom Print Shack Product'), findsOneWidget);
+
+    // Change attributes of the Signature T-Shirt (via the injected cartService)
+    final sigItem = cartService
+        .getItems()
+        .firstWhere((i) => i.name == SignatureTShirtProductPage.title);
+    final sigKey = sigItem.stableKey();
+    cartService.updateItemAttributes(sigKey, {'size': 'L', 'color': 'black'});
+    // Allow debounce/persist timers to run and UI to update
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 350));
+    await tester.pumpAndSettle();
+
+    // The cart UI should show the updated attributes
+    expect(find.textContaining('size: L'), findsOneWidget);
+    expect(find.textContaining('color: black'), findsOneWidget);
 
     // 4) Increase quantity of Signature T-Shirt by tapping its + button inside the card
     final sigText = find.text('Signature T-Shirt');
@@ -106,6 +122,9 @@ void main() {
     final printCard = find.ancestor(of: printText, matching: find.byType(Card));
     expect(printCard, findsOneWidget);
     await tester.longPress(printCard);
+    // allow debounce/persist timers to run after removal
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 350));
     await tester.pumpAndSettle();
 
     // The print item should be gone
@@ -125,6 +144,100 @@ void main() {
     await tester.pump(const Duration(seconds: 1));
 
     // The app should show a SnackBar confirming checkout (text may vary)
+    expect(find.byType(SnackBar), findsOneWidget);
+  });
+
+  testWidgets(
+      'alternate cart flow: add two sale items, modify attrs, remove one, checkout',
+      (tester) async {
+    final persistence = InMemoryPersistence();
+    final cartService = CartService.forTest(persistence);
+
+    await tester.pumpWidget(UnionShopApp(cartService: cartService));
+    await tester.pumpAndSettle();
+
+    // Navigate to Sale collection
+    final navState = tester.state<NavigatorState>(find.byType(Navigator));
+    navState.pushNamed('/collections/sale');
+    await tester.pumpAndSettle();
+
+    // Add Essential Hoodie
+    final hoodieFinder = find.text(EssentialHoodieProductPage.title);
+    expect(hoodieFinder, findsOneWidget);
+    await tester.ensureVisible(hoodieFinder);
+    await tester.tap(hoodieFinder);
+    await tester.pumpAndSettle();
+    final addBtn = find.text('Add to Cart');
+    expect(addBtn, findsOneWidget);
+    await tester.tap(addBtn);
+    await tester.pumpAndSettle();
+
+    // Back to sale page
+    tester.state<NavigatorState>(find.byType(Navigator));
+    navState.pop();
+    await tester.pumpAndSettle();
+
+    // Add Beenie
+    final beenieFinder = find.text('Beenie');
+    expect(beenieFinder, findsOneWidget);
+    await tester.ensureVisible(beenieFinder);
+    await tester.tap(beenieFinder);
+    await tester.pumpAndSettle();
+    expect(addBtn, findsOneWidget);
+    await tester.tap(addBtn);
+    await tester.pumpAndSettle();
+
+    // Go to cart
+    final nav = tester.state<NavigatorState>(find.byType(Navigator));
+    nav.pushNamed('/cart');
+    await tester.pumpAndSettle();
+
+    // Both items present
+    expect(find.text(EssentialHoodieProductPage.title), findsOneWidget);
+    expect(find.text(BeenieProductPage.title), findsOneWidget);
+
+    // Modify attributes of Beenie via cartService (simulate selecting color)
+    final beenieItem = cartService
+        .getItems()
+        .firstWhere((i) => i.name == BeenieProductPage.title);
+    final beenieKey = beenieItem.stableKey();
+    cartService.updateItemAttributes(beenieKey, {'color': 'green'});
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 350));
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('color: green'), findsOneWidget);
+
+    // Increase hoodie quantity
+    final hoodieText = find.text(EssentialHoodieProductPage.title);
+    final hoodieCard =
+        find.ancestor(of: hoodieText, matching: find.byType(Card));
+    final hoodieAdd = find.descendant(
+        of: hoodieCard, matching: find.byIcon(Icons.add_circle_outline));
+    expect(hoodieAdd, findsOneWidget);
+    await tester.tap(hoodieAdd);
+    await tester.pumpAndSettle();
+    expect(cartService.getItemCount(), 3);
+
+    // Remove Beenie by long press
+    final beenieText = find.text(BeenieProductPage.title);
+    final beenieCard =
+        find.ancestor(of: beenieText, matching: find.byType(Card));
+    expect(beenieCard, findsOneWidget);
+    await tester.longPress(beenieCard);
+    // allow debounce/persist timers
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 350));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Beenie'), findsNothing);
+
+    // Checkout
+    final checkoutBtn = find.text('Proceed to Checkout');
+    expect(checkoutBtn, findsOneWidget);
+    await tester.tap(checkoutBtn);
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
     expect(find.byType(SnackBar), findsOneWidget);
   });
 }

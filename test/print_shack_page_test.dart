@@ -1,12 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:union_shop/views/print_shack.dart';
+import 'package:provider/provider.dart';
+import 'package:union_shop/cart/cart_service.dart';
+import 'package:union_shop/cart/storage/cart_persistence.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class _FakePrefs implements SharedPreferences {
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+class InMemoryPersistence extends CartPersistence {
+  String? _data;
+  InMemoryPersistence() : super(_FakePrefs());
+
+  @override
+  Future<void> save(String json) async {
+    _data = json;
+  }
+
+  @override
+  String? load() => _data;
+
+  @override
+  Future<void> clear() async {
+    _data = null;
+  }
+}
 
 void main() {
+  WidgetController.hitTestWarningShouldBeFatal = true;
   group('PrintShackPage widget tests', () {
     testWidgets('Initial UI - title, price, fields and button present',
         (WidgetTester tester) async {
-      await tester.pumpWidget(const MaterialApp(home: PrintShackPage()));
+      final persistence = InMemoryPersistence();
+      final cartService = CartService.forTest(persistence);
+      await tester.pumpWidget(ChangeNotifierProvider.value(
+        value: cartService,
+        child: const MaterialApp(home: PrintShackPage()),
+      ));
       await tester.pumpAndSettle();
 
       expect(find.text('Make your Own Print Shack Product'), findsOneWidget);
@@ -26,7 +59,12 @@ void main() {
 
     testWidgets('Dropdown is present and displays initial selection',
         (WidgetTester tester) async {
-      await tester.pumpWidget(const MaterialApp(home: PrintShackPage()));
+      final persistence = InMemoryPersistence();
+      final cartService = CartService.forTest(persistence);
+      await tester.pumpWidget(ChangeNotifierProvider.value(
+        value: cartService,
+        child: const MaterialApp(home: PrintShackPage()),
+      ));
       await tester.pumpAndSettle();
 
       // Ensure the 'Number of lines' label and initial selection text are visible
@@ -36,7 +74,12 @@ void main() {
 
     testWidgets('Enter text in line fields and quantity then tap Add to Cart',
         (WidgetTester tester) async {
-      await tester.pumpWidget(const MaterialApp(home: PrintShackPage()));
+      final persistence = InMemoryPersistence();
+      final cartService = CartService.forTest(persistence);
+      await tester.pumpWidget(ChangeNotifierProvider.value(
+        value: cartService,
+        child: const MaterialApp(home: PrintShackPage()),
+      ));
       await tester.pumpAndSettle();
 
       // Type into the first TextField (Line 1)
@@ -51,6 +94,8 @@ void main() {
       // Tap Add to Cart and ensure button exists and is tappable
       final addToCart = find.text('Add to Cart');
       expect(addToCart, findsOneWidget);
+      await tester.ensureVisible(addToCart);
+      await tester.pumpAndSettle();
       await tester.tap(addToCart);
       await tester.pumpAndSettle();
 
