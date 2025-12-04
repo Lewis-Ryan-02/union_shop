@@ -15,7 +15,7 @@ class TShirtProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProductPage(
+    return const ProductPage(
       title: title,
       price: price,
       discountPrice: discountPrice,
@@ -38,7 +38,7 @@ class HoodieProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProductPage(
+    return const ProductPage(
       title: title,
       price: price,
       discountPrice: discountPrice,
@@ -61,7 +61,7 @@ class TeddyBearProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProductPage(
+    return const ProductPage(
       title: title,
       price: price,
       discountPrice: discountPrice,
@@ -84,7 +84,7 @@ class ShoesProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProductPage(
+    return const ProductPage(
       title: title,
       price: price,
       discountPrice: discountPrice,
@@ -107,7 +107,7 @@ class EssentialTShirtProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProductPage(
+    return const ProductPage(
       title: title,
       price: price,
       discountPrice: discountPrice,
@@ -130,7 +130,7 @@ class EssentialHoodieProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProductPage(
+    return const ProductPage(
       title: title,
       price: price,
       discountPrice: discountPrice,
@@ -153,7 +153,7 @@ class BeenieProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProductPage(
+    return const ProductPage(
       title: title,
       price: price,
       discountPrice: discountPrice,
@@ -176,7 +176,7 @@ class JeansProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProductPage(
+    return const ProductPage(
       title: title,
       price: price,
       discountPrice: discountPrice,
@@ -199,7 +199,7 @@ class PostCardProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProductPage(
+    return const ProductPage(
       title: title,
       price: price,
       discountPrice: discountPrice,
@@ -222,7 +222,7 @@ class MagnetProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProductPage(
+    return const ProductPage(
       title: title,
       price: price,
       discountPrice: discountPrice,
@@ -245,7 +245,7 @@ class BookmarkProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProductPage(
+    return const ProductPage(
       title: title,
       price: price,
       discountPrice: discountPrice,
@@ -268,7 +268,7 @@ class NotebookProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProductPage(
+    return const ProductPage(
       title: title,
       price: price,
       discountPrice: discountPrice,
@@ -291,7 +291,7 @@ class SignatureHoodieProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProductPage(
+    return const ProductPage(
       title: title,
       price: price,
       description: description,
@@ -313,7 +313,7 @@ class SignatureTShirtProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProductPage(
+    return const ProductPage(
       title: title,
       price: price,
       description: description,

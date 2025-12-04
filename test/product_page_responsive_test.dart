@@ -10,7 +10,7 @@ void main() {
         await tester.binding.setSurfaceSize(const Size(800, 600));
       });
 
-      await tester.pumpWidget(MaterialApp(
+      await tester.pumpWidget(const MaterialApp(
           home: ProductPage(
         title: 'Test Product',
         description: 'Test Description',
@@ -37,7 +37,7 @@ void main() {
         await tester.binding.setSurfaceSize(const Size(800, 600));
       });
 
-      await tester.pumpWidget(MaterialApp(
+      await tester.pumpWidget(const MaterialApp(
           home: ProductPage(
         title: 'Test Product',
         description: 'Test Description',
@@ -65,7 +65,7 @@ void main() {
         await tester.binding.setSurfaceSize(const Size(800, 600));
       });
 
-      await tester.pumpWidget(MaterialApp(
+      await tester.pumpWidget(const MaterialApp(
           home: ProductPage(
         title: 'Test Product',
         description: 'Test Description',

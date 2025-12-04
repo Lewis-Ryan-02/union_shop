@@ -130,6 +130,7 @@ class HomeScreen extends StatelessWidget {
                   discountPrice: EssentialHoodieProductPage.discountPrice,
                   imageUrl:
                       EssentialHoodieProductPage.imageUrl,
+                      path: EssentialHoodieProductPage.path,
                 ),
                 ProductCard(
                   title: EssentialTShirtProductPage.title,
@@ -137,6 +138,7 @@ class HomeScreen extends StatelessWidget {
                   discountPrice: EssentialTShirtProductPage.discountPrice,
                   imageUrl:
                       EssentialTShirtProductPage.imageUrl,
+                      path: EssentialTShirtProductPage.path,
                 ),
               ],
             ),
@@ -202,7 +204,7 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 48 * 2),
             ElevatedButton(
               onPressed: () {
-                navigateToProduct(context);
+                Navigator.pushNamed(context, '/collections');
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF4d2963),
@@ -265,7 +267,7 @@ class HomeScreen extends StatelessWidget {
                       const Text('First add your item of clothing to your cart\nthen click below to add your text! One line of\ntext contains 10 characters!'),
                       const SizedBox(height: 16),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {Navigator.pushNamed(context, '/print-shack');},
                         child: const Text('Click Here to add text!'),
                       ),
                     ],

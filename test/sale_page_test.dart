@@ -3,7 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:union_shop/views/sale_page.dart';
 
 void main() {
-  testWidgets('Sale Page displays product cards with discounts', (tester) async {
+  testWidgets('Sale Page displays product cards with discounts',
+      (tester) async {
     await tester.pumpWidget(const MaterialApp(
       home: Scaffold(
         body: SalePage(),
@@ -15,7 +16,8 @@ void main() {
     expect(find.text('Buy the items at a discount today!'), findsOneWidget);
 
     // Check that all product cards are present
-    expect(find.text('Hoodie'), findsOneWidget);
+    // Sale page uses 'Essential Hoodie' naming in this app
+    expect(find.text('Essential Hoodie'), findsOneWidget);
     expect(find.text('£25.00'), findsOneWidget);
     expect(find.text('£15.00'), findsOneWidget);
 

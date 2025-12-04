@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:union_shop/widgets/footer.dart';
 import 'package:union_shop/widgets/header.dart';
 import 'package:union_shop/widgets/responsive.dart';
+import 'package:union_shop/cart/cart_service.dart';
 
-class ProductPage extends StatelessWidget {
-  ProductPage(
+class ProductPage extends StatefulWidget {
+  const ProductPage(
       {super.key,
       this.imageUrl = 'assets/images/placeholder_image.png',
       required this.title,
@@ -12,13 +14,19 @@ class ProductPage extends StatelessWidget {
       required this.price,
       this.discountPrice = ''});
 
-  final TextEditingController quantityController =
-      TextEditingController(text: '1');
   final String imageUrl;
   final String title;
   final String description;
   final String price;
   final String discountPrice;
+
+  @override
+  State<ProductPage> createState() => _ProductPageState();
+}
+
+class _ProductPageState extends State<ProductPage> {
+  final TextEditingController quantityController =
+      TextEditingController(text: '1');
 
   final List<DropdownMenuEntry<String>> colourItems = const [
     DropdownMenuEntry(value: 'red', label: 'Red'),
@@ -32,6 +40,23 @@ class ProductPage extends StatelessWidget {
     DropdownMenuEntry(value: 'xl', label: 'XL'),
     DropdownMenuEntry(value: 'xxl', label: 'XXL'),
   ];
+
+  late String selectedColour;
+  late String selectedSize;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedColour = colourItems.first.value;
+    selectedSize = sizeItems.first.value;
+  }
+
+  @override
+  void dispose() {
+    quantityController.dispose();
+    super.dispose();
+  }
+
   void navigateToHome(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
   }
@@ -42,11 +67,11 @@ class ProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Widget priceWidget = discountPrice.isNotEmpty
+    final Widget priceWidget = widget.discountPrice.isNotEmpty
         ? Row(
             children: [
               Text(
-                price,
+                widget.price,
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -56,7 +81,7 @@ class ProductPage extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                discountPrice,
+                widget.discountPrice,
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -66,7 +91,7 @@ class ProductPage extends StatelessWidget {
             ],
           )
         : Text(
-            price,
+            widget.price,
             style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -86,7 +111,7 @@ class ProductPage extends StatelessWidget {
             child: AspectRatio(
               aspectRatio: 4 / 3,
               child: Image.asset(
-                imageUrl,
+                widget.imageUrl,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
@@ -129,7 +154,7 @@ class ProductPage extends StatelessWidget {
           children: [
             const SizedBox(height: 8),
             Text(
-              title,
+              widget.title,
               style: const TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
@@ -144,7 +169,11 @@ class ProductPage extends StatelessWidget {
             DropdownMenu(
               width: double.infinity,
               dropdownMenuEntries: colourItems,
-              initialSelection: colourItems.first.value,
+              initialSelection: selectedColour,
+              onSelected: (String? v) {
+                if (v == null) return;
+                setState(() => selectedColour = v);
+              },
             ),
             const SizedBox(height: 12),
             // Size and Quantity placed in a single row so quantity appears
@@ -153,7 +182,7 @@ class ProductPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Size expands to take remaining space
-                 Expanded(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -163,8 +192,12 @@ class ProductPage extends StatelessWidget {
                         height: 48,
                         child: DropdownMenu(
                           width: double.infinity,
-                          initialSelection: sizeItems.first.value,
+                          initialSelection: selectedSize,
                           dropdownMenuEntries: sizeItems,
+                          onSelected: (String? v) {
+                            if (v == null) return;
+                            setState(() => selectedSize = v);
+                          },
                         ),
                       ),
                     ],
@@ -206,7 +239,35 @@ class ProductPage extends StatelessWidget {
             SizedBox(
               width: isMobileView ? double.infinity : 220,
               child: ElevatedButton(
-                onPressed: placeholderCallbackForButtons,
+                onPressed: () {
+                  // Parse quantity
+                  final q = int.tryParse(quantityController.text) ?? 1;
+                  // Parse price (strip non-numeric characters)
+                  String rawPrice = widget.discountPrice.isNotEmpty
+                      ? widget.discountPrice
+                      : widget.price;
+                  final numeric = rawPrice
+                      .replaceAll(RegExp(r'[^0-9\.,]'), '')
+                      .replaceAll(',', '.');
+                  final unitPrice = double.tryParse(numeric) ?? 0.0;
+
+                  final cart = Provider.of<CartService>(context, listen: false);
+                  cart.addItem(
+                    productId: widget.title,
+                    name: widget.title,
+                    unitPrice: unitPrice,
+                    quantity: q,
+                    attributes: {
+                      'color': selectedColour,
+                      'size': selectedSize,
+                    },
+                  );
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content: Text('Added $q × ${widget.title} to cart')),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF4d2963),
                   foregroundColor: Colors.white,
@@ -230,8 +291,9 @@ class ProductPage extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              description,
-              style: const TextStyle(fontSize: 16, color: Colors.grey, height: 1.5),
+              widget.description,
+              style: const TextStyle(
+                  fontSize: 16, color: Colors.grey, height: 1.5),
             ),
             const SizedBox(height: 24),
           ],

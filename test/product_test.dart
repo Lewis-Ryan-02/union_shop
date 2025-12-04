@@ -5,7 +5,7 @@ import 'package:union_shop/views/product_page.dart';
 void main() {
   group('Product Page Tests', () {
     Widget createTestWidget() {
-      return MaterialApp(
+      return const MaterialApp(
           home: ProductPage(
               title: 'Placeholder Product Name',
               description:
