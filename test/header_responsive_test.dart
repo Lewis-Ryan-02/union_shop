@@ -44,8 +44,8 @@ void main() {
 
     await tester.pumpAndSettle();
 
-    // On desktop we expect Dropdowns to be visible (at least one)
-    expect(find.byType(DropdownButton), findsWidgets);
+    // On desktop we expect the navigation links (e.g. 'Home') to be visible
+    expect(find.text('Home'), findsOneWidget);
 
     // Menu icon should not be present in desktop layout
     expect(find.byIcon(Icons.menu), findsNothing);

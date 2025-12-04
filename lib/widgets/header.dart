@@ -75,7 +75,10 @@ class Header extends StatelessWidget {
             child: const Text(
               'BIG SALE! OUR ESSENTIAL RANGE HAS DROPPED IN PRICE! OVER 20% OFF! COME GRAB YOURS WHILE STOCK LASTS!',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
             ),
           ),
           // Main header
@@ -235,8 +238,8 @@ class Header extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8),
                               onChanged: (String? newValue) {
-                                Navigator.pushNamed(
-                                    context, _shopPaths[_shopText.indexOf(newValue!)]);
+                                Navigator.pushNamed(context,
+                                    _shopPaths[_shopText.indexOf(newValue!)]);
                               },
                               icon: const Icon(Icons.arrow_downward),
                               items: _shopText.map<DropdownMenuItem<String>>(
@@ -257,8 +260,8 @@ class Header extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8),
                               onChanged: (String? newValue) {
-                                Navigator.pushNamed(
-                                    context, _printPaths[_printText.indexOf(newValue!)]);
+                                Navigator.pushNamed(context,
+                                    _printPaths[_printText.indexOf(newValue!)]);
                               },
                               icon: const Icon(Icons.arrow_downward),
                               items: _printText.map<DropdownMenuItem<String>>(
@@ -331,7 +334,7 @@ class Header extends StatelessWidget {
                               minWidth: 32,
                               minHeight: 32,
                             ),
-                            onPressed: placeholderCallbackForButtons,
+                            onPressed: () {Navigator.pushNamed(context, '/cart');},
                           ),
                         ],
                       ),

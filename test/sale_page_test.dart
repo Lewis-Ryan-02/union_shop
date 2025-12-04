@@ -15,22 +15,21 @@ void main() {
 
     expect(find.text('Buy the items at a discount today!'), findsOneWidget);
 
-    // Check that all product cards are present
-    // Sale page uses 'Essential Hoodie' naming in this app
+    // Check that the current sale product cards are present
     expect(find.text('Essential Hoodie'), findsOneWidget);
     expect(find.text('£25.00'), findsOneWidget);
     expect(find.text('£15.00'), findsOneWidget);
 
-    expect(find.text('Teddy Bear'), findsOneWidget);
+    expect(find.text('Beenie'), findsOneWidget);
     expect(find.text('£12.00'), findsOneWidget);
-    expect(find.text('£10.00'), findsExactly(2));
+    expect(find.text('£10.00'), findsNWidgets(2));
 
-    expect(find.text('Notebook'), findsOneWidget);
+    expect(find.text('Jeans'), findsOneWidget);
     expect(find.text('£5.99'), findsOneWidget);
     expect(find.text('£3.99'), findsOneWidget);
 
-    expect(find.text('T-Shirt'), findsOneWidget);
+    expect(find.text('Essential T-Shirt'), findsOneWidget);
     expect(find.text('£18.00'), findsOneWidget);
-    expect(find.text('£10.00'), findsExactly(2));
+    expect(find.text('£10.00'), findsNWidgets(2));
   });
 }
